@@ -1,8 +1,17 @@
-#!/usr/bin/env python
+from distutils.core import setup
 
-from setuptools import setup, find_packages
-
-requires = [
+setup(
+  name='codb',
+  packages=['codb'],
+  version=1.0,
+  license='MIT',
+  description='common code for DBs',
+  author='Equinox',
+  author_email='n/a',
+  url='https://github.com/equinoxfitness/datacoco.db',
+  download_url='https://github.com/equinoxfitness/datacoco.db/archive/v-1.0.tar.gz',
+  keywords=['helper', 'common', 'db', 'api'],   # Keywords that define your package best
+  install_requires=[
     'psycopg2==2.7.7',
     'python-tds==1.9.1',
     'salesforce-bulk==2.1.0',
@@ -12,27 +21,5 @@ requires = [
     'sqlalchemy==1.2.7',
     'redis==2.10.6',
     'PyMySQL==0.9.3',
-]
-
-setup(
-    name="codb",
-    version=1.0,
-    author="Equinox",
-    description="common code for DBs",
-    long_description=open('README.md').read(),
-    url="https://bitbucket.org/equinoxfitness/datacoco3.db",
-    scripts=[],
-    license="TBD",
-    packages=find_packages(exclude=["tests*"]),
-    install_requires=requires,
-    classifiers=[
-        'Development Status :: 5 - Production/Stable',
-        'Intended Audience :: Developers',
-        'Natural Language :: English',
-        'Programming Language :: Python',
-        'Programming Language :: Python :: 3.6',
-    ],
-    dependency_links=[
-        "https://github.com/equinoxfitness/datacoco.core#egg=cocore-1.0.0"
-    ]
+  ]
 )
