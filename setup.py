@@ -7,7 +7,7 @@ setup(
   license='MIT',
   description='common code for DBs',
   author='Equinox',
-  author_email='n/a',
+  author_email='Alexander.Sales@equinox.com',
   url='https://github.com/equinoxfitness/datacoco.db',
   download_url='https://github.com/equinoxfitness/datacoco.db/archive/v-1.0.tar.gz',
   keywords=['helper', 'common', 'db', 'api'],   # Keywords that define your package best
