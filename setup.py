@@ -3,7 +3,7 @@ from distutils.core import setup
 setup(
   name='codb',
   packages=['codb'],
-  version=1.0,
+  version=1.1,
   license='MIT',
   description='common code for DBs',
   author='Equinox',
