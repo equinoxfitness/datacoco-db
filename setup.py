@@ -2,8 +2,8 @@ from distutils.core import setup
 
 setup(
   name='codb',
-  packages=['codb'],
-  version=1.1,
+  packages=['codb', 'codb.helper'],
+  version=1.2,
   license='MIT',
   description='common code for DBs',
   author='Equinox',
