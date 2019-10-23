@@ -1,6 +1,6 @@
 psycopg2==2.7.1
--e git+https://bitbucket.org/equinoxfitness/datacoco3.core.git#egg=cocore
--e git+https://bitbucket.org/equinoxfitness/datacoco3.cloud.git#egg=cocloud
+cocore==1.2.0
+cocloud==0.2
 python-tds==1.9.1
 salesforce-bulk==2.1.0
 simple-salesforce==0.72.2
