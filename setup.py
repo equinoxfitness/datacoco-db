@@ -6,6 +6,7 @@ setup(
   version=1.2,
   license='MIT',
   description='common code for DBs',
+  long_description=open("README.md").read(),
   author='Equinox',
   author_email='Alexander.Sales@equinox.com',
   url='https://github.com/equinoxfitness/datacoco.db',
