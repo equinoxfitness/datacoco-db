@@ -1,12 +1,13 @@
-from distutils.core import setup
+from setuptools import setup
 
 setup(
   name='codb',
   packages=['codb', 'codb.helper'],
-  version=1.2,
+  version='1.2.1',
   license='MIT',
   description='common code for DBs',
   long_description=open("README.md").read(),
+  long_description_content_type="text/markdown",
   author='Equinox',
   author_email='Alexander.Sales@equinox.com',
   url='https://github.com/equinoxfitness/datacoco.db',
