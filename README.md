@@ -11,7 +11,7 @@ There are currently interaction classes for the following DBs and Apps:
 
 ## Development
 
-#### Getting Started
+### Getting Started
 
 It is recommended to use the steps below to set up a virtual environment for development:
 
@@ -19,12 +19,12 @@ It is recommended to use the steps below to set up a virtual environment for dev
 ```
 python3 -m venv <virtual env name>
 source venv/bin/activate
-pip install -r requirements.txt --process-dependency-links
+pip install -r requirements-dev.txt
 ```
 
 prepare `etl.cfg` at the root folder using key and values from `tests/test_data/db.test.cfg`
 
-#### Testing
+### Testing
 prepare db.test.cfg at the root folder using key and values from `tests/test_data/db.test.cfg`
 
 Run

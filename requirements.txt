@@ -1,4 +1,4 @@
-psycopg2==2.7.1
+psycopg2>=2.8
 cocore==1.2.0
 cocloud==0.2
 python-tds==1.9.1
