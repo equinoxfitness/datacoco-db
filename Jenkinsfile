@@ -58,8 +58,8 @@ pipeline{
                     sh "pip install twine"
                     sh "rm -rf dist"
                     sh "python setup.py sdist"
-                    sh "twine upload --repository-url https://test.pypi.org/legacy/ --skip-existing dist/* -u ${USERNAME} -p ${PASSWORD}"
-                    //sh "twine upload --skip-existing dist/* -u ${USERNAME} -p ${PASSWORD}"
+                    //sh "twine upload --repository-url https://test.pypi.org/legacy/ --skip-existing dist/* -u ${USERNAME} -p ${PASSWORD}"
+                    sh "twine upload --skip-existing dist/* -u ${USERNAME} -p ${PASSWORD}"
                 }
             }
         }
