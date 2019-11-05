@@ -3,7 +3,7 @@ from setuptools import setup
 setup(
   name='codb',
   packages=['codb', 'codb.helper'],
-  version='1.2.1',
+  version='1.2.2',
   license='MIT',
   description='common code for DBs',
   long_description=open("README.md").read(),
