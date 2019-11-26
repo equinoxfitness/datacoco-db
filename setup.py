@@ -3,13 +3,12 @@ from setuptools import setup, find_packages
 from codb import VERSION
 
 setup(
-    name="codb",
+    name="datacoco-db",
     packages=find_packages(exclude=["tests*"]),
     version=VERSION,
     license="MIT",
     description="common code for DBs",
-    long_description=open("README.md").read(),
-    long_description_content_type="text/markdown",
+    long_description=open("README.rst").read(),
     author="Equinox Fitness",
     url="https://github.com/equinoxfitness/datacoco-db",
     install_requires=[
