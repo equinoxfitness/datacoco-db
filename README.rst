@@ -1,6 +1,9 @@
 Datacoco - DB
 =============
 
+.. image:: https://api.codacy.com/project/badge/Grade/4d85afc6c49f40eab14f9aa60336ac64
+    :target: https://www.codacy.com/manual/meikalei/datacoco-db?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=equinoxfitness/datacoco-db&amp;utm_campaign=Badge_Grade
+
 Equinox Common Code Utility for Python 3 for DB interactions! There are
 currently interaction classes for the following DBs and Apps:
 
