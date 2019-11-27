@@ -3,9 +3,7 @@
 """
 import sqlite3
 from sqlite3 import Error
-from cocore.Logger import Logger
-
-LOG = Logger()
+from codb.helper.config import config
 
 def _result_iter(cursor, arraysize):
     """
@@ -16,9 +14,9 @@ def _result_iter(cursor, arraysize):
         results = cursor.fetchmany(arraysize)
         count += len(results)
         if not results:
-            LOG.l("no rows to process")
+            print("no rows to process")
             break
-        LOG.l("%s rows processed" % count)
+        print("%s rows processed" % count)
         for result in results:
             yield result
 
@@ -37,7 +35,7 @@ class SQLiteInteraction:
         try:
             self.con = sqlite3.connect(self.db_file)
         except Error as e:
-            LOG.l(e)
+            print(e)
 
     def batch_open(self):
         self.cur = self.con.cursor()
@@ -57,7 +55,7 @@ class SQLiteInteraction:
             self.cur.execute(sql)
             results = self.cur.fetchall()
         except Error as e:
-            LOG.l(e)
+            print(e)
         return results
 
     def fetch_sql(self, sql, blocksize=1000):
@@ -70,7 +68,7 @@ class SQLiteInteraction:
             self.cur.execute(sql)
             results = _result_iter(self.cur, blocksize)
         except Error as e:
-            LOG.l(e)
+            print(e)
         return results
 
     def fetch_sql_one(self, sql):
@@ -82,7 +80,7 @@ class SQLiteInteraction:
             self.cur.execute(sql)
             result = self.cur.fetchone()
         except Error as e:
-            LOG.l(e)
+            print(e)
         return result
 
     def exec_sql(self, sql, auto_commit=True):
@@ -95,4 +93,4 @@ class SQLiteInteraction:
             if auto_commit:
                 self.con.commit()
         except Error as e:
-            LOG.l(e)
+            print(e)

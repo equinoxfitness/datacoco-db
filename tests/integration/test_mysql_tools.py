@@ -1,15 +1,14 @@
 import unittest
 
 from codb.mysql_tools import MYSQLInteraction
-from cocore.config import Config
-
+from codb.helper.config import config
 
 class TestMYSQLInteraction(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
         try:
-            test_conf = Config(conf_path='db.test.cfg')['mysql']
+            test_conf = config(conf_path='db.test.cfg')['mysql']
             cls.testClass = MYSQLInteraction(dbname=test_conf['db_name'], host=test_conf['host'], user=test_conf['user'], password=test_conf['password'], connection='mysql', port=test_conf['port'])
         except:
             pass

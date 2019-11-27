@@ -3,14 +3,14 @@ import unittest
 import tempfile
 
 from codb.mssql_tools import MSSQLInteraction
-from cocore.config import Config
+from codb.helper.config import config
 
 
 class TestMSSQLInteraction(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        mssql_conf = Config(conf_path='db.test.cfg')['mssql']
+        mssql_conf = config(conf_path='db.test.cfg')['mssql']
         cls.testClass = MSSQLInteraction(host=mssql_conf['server'], dbname=mssql_conf['db_name'],
                                           user=mssql_conf['user'], password=mssql_conf['password'])
 

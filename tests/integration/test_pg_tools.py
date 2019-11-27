@@ -3,7 +3,7 @@ import tempfile
 from unittest.mock import MagicMock
 
 from codb.pg_tools import PGInteraction
-from cocore.config import Config
+from codb.helper.config import config
 
 
 class TestPGInteraction(unittest.TestCase):
@@ -11,7 +11,7 @@ class TestPGInteraction(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         try:
-            test_conf = Config(conf_path='db.test.cfg')['redshift']
+            test_conf = config(conf_path='db.test.cfg')['redshift']
             cls.testClass = PGInteraction(dbname=test_conf['db_name'], host=test_conf['host'], user=test_conf['user'], password=test_conf['password'], port=test_conf['port'], schema='public')
         except:
             pass
@@ -54,8 +54,8 @@ class TestPGInteraction(unittest.TestCase):
         self.testClass.export_sql_to_json('select * from temp_sql_count', filename)
 
         # export to s3
-        aws_conf = Config(conf_path='db.test.cfg')['aws']
-        general_conf = Config(conf_path='db.test.cfg')['general']
+        aws_conf = config(conf_path='db.test.cfg')['aws']
+        general_conf = config(conf_path='db.test.cfg')['general']
         self.testClass.export_sql_to_s3(
             sql='select * from temp_sql_count',
             s3path=f's3://{general_conf["temp_bucket"]}/datacocodb-test.txt',

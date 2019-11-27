@@ -2,7 +2,6 @@ import unittest
 from unittest.mock import MagicMock
 
 from codb.mssql_tools import MSSQLInteraction
-from cocore.config import Config
 
 
 class TestMSSQLInteraction(unittest.TestCase):

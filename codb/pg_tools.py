@@ -6,10 +6,7 @@ import psycopg2.extras
 import simplejson as json
 
 from psycopg2 import errorcodes
-from cocore.Logger import Logger
 from codb.helper.deprecate import deprecated
-
-l = Logger()
 
 
 def _result_iter(cursor, arraysize):
@@ -102,7 +99,7 @@ class PGInteraction:
         result = self.fetch_sql(sql)
 
         f = open(csv_filename, "w", newline="")
-        l.l("exporting to file:" + f.name)
+        print("exporting to file:" + f.name)
         writer = csv.writer(f, delimiter=delimiter)
         if headers:
             writer.writerow([i[0] for i in self.cur.description])  # write headers
@@ -155,7 +152,7 @@ class PGInteraction:
         try:
             results = self.cur.execute(sql)
         except Exception as e:
-            l.l(e)
+            print(e)
             pgError = errorcodes.lookup(e.pgcode)
             raise RuntimeError(pgError)
         return results

@@ -1,7 +1,6 @@
 import unittest
 
 from codb.sqlite_tools import SQLiteInteraction
-from cocore.config import Config
 
 
 class TestSQLiteInteraction(unittest.TestCase):

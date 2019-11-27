@@ -1,7 +1,7 @@
 import unittest
 
 from codb.rdb_tools import DBInteraction
-from cocore.config import Config
+from codb.helper.config import config
 
 
 class TestDBInteraction(unittest.TestCase):
@@ -9,21 +9,21 @@ class TestDBInteraction(unittest.TestCase):
     @unittest.skip("enable this for integration testing. use tests/test_data/db.test.cfg")
     def test_fetch_sql_all(self):
         print('--------------test_fetch_sql_all')
-        mssql_conf = Config(conf_path='db.test.cfg')['mssql']
+        mssql_conf = config(conf_path='db.test.cfg')['mssql']
         self.testClass = DBInteraction(config=mssql_conf)
         result = self.testClass.fetch_sql_all('select current_timestamp')
 
     @unittest.skip("enable this for integration testing. use tests/test_data/db.test.cfg")
     def test_fetch_sql_one_empty_string(self):
         print('--------------test__fetch_sql_one')
-        mssql_conf = Config(conf_path='db.test.cfg')['mssql']
+        mssql_conf = config(conf_path='db.test.cfg')['mssql']
         self.testClass = DBInteraction(config=mssql_conf)
         result = self.testClass.fetch_sql_one('')
 
     @unittest.skip("enable this for integration testing. use tests/test_data/db.test.cfg")
     def test_mssql_fetch_sql_one(self):
         print('--------------test_cosmo_fetch_sql_one')
-        mssql_conf = Config(conf_path='db.test.cfg')['mssql']
+        mssql_conf = config(conf_path='db.test.cfg')['mssql']
         self.testClass = DBInteraction(config=mssql_conf)
         result = self.testClass.fetch_sql_one('''
              CREATE TABLE #TEST (
@@ -42,7 +42,7 @@ class TestDBInteraction(unittest.TestCase):
     @unittest.skip("enable this for integration testing. use tests/test_data/db.test.cfg")
     def test_exec_sql(self):
         print('--------------test_exec_sql')
-        mssql_conf = Config(conf_path='db.test.cfg')['mssql']
+        mssql_conf = config(conf_path='db.test.cfg')['mssql']
         self.testClass = DBInteraction(config=mssql_conf)
         self.testClass.exec_sql('''
                         CREATE TABLE #TEST (
@@ -64,7 +64,7 @@ class TestDBInteraction(unittest.TestCase):
 
     @unittest.skip("enable this for integration testing. use tests/test_data/db.test.cfg")
     def test_url_from_conf(self):
-        mssql_conf = Config(conf_path='db.test.cfg')['mssql']
+        mssql_conf = config(conf_path='db.test.cfg')['mssql']
         self.testClass = DBInteraction(config=mssql_conf)
         print('--------------test_url_from_conf')
         conf = {'type': 'postgres', 'user': 'test_user', 'password': 'test_password', 'port': 'test_port', 'db_name': 'test_db_name', 'host': 'test_host'}
