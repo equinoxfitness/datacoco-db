@@ -1,6 +1,5 @@
 import unittest
 import tempfile
-from unittest.mock import MagicMock
 
 from codb.pg_tools import PGInteraction
 from codb.helper.config import config
@@ -12,9 +11,14 @@ class TestPGInteraction(unittest.TestCase):
     def setUpClass(cls):
         try:
             test_conf = config(conf_path='db.test.cfg')['redshift']
-            cls.testClass = PGInteraction(dbname=test_conf['db_name'], host=test_conf['host'], user=test_conf['user'], password=test_conf['password'], port=test_conf['port'], schema='public')
-        except:
-            pass
+            cls.testClass = PGInteraction(dbname=test_conf['db_name'], 
+                host=test_conf['host'], 
+                user=test_conf['user'], 
+                password=test_conf['password'], 
+                port=test_conf['port'], 
+                schema='public')
+        except Exception as e:
+            print(e)
 
 
     @unittest.skip("enable this for integration testing. use tests/test_data/db.test.cfg")
@@ -58,7 +62,7 @@ class TestPGInteraction(unittest.TestCase):
         general_conf = config(conf_path='db.test.cfg')['general']
         self.testClass.export_sql_to_s3(
             sql='select * from temp_sql_count',
-            s3path=f's3://{general_conf["temp_bucket"]}/datacocodb-test.txt',
+            s3path='s3://' + general_conf["temp_bucket"] + '/datacocodb-test.txt',
             aws_access_key=aws_conf['aws_id'],
             aws_secret_key=aws_conf['aws_key']
         )

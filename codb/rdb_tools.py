@@ -4,8 +4,6 @@
 """
 
 import sqlalchemy
-from codb.helper.config import config
-from codb.helper.deprecate import deprecated
 from sqlalchemy.sql import text
 from sqlalchemy.dialects import registry
 

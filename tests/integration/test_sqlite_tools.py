@@ -9,8 +9,8 @@ class TestSQLiteInteraction(unittest.TestCase):
     def setUpClass(cls):
         try:
             cls.testClass = SQLiteInteraction(db_file="test.db")
-        except:
-            pass
+        except Exception as e:
+            print(e)
 
     def test_database(self):
         self.testClass.conn()

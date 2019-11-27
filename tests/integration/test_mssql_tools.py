@@ -16,7 +16,7 @@ class TestMSSQLInteraction(unittest.TestCase):
 
     def test_database(self):
         print('--------------test_database')
-        conn = self.testClass.conn()
+        self.testClass.conn()
 
         self.testClass.batch_open()
 

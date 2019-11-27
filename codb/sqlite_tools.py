@@ -3,7 +3,6 @@
 """
 import sqlite3
 from sqlite3 import Error
-from codb.helper.config import config
 
 def _result_iter(cursor, arraysize):
     """
@@ -21,7 +20,7 @@ def _result_iter(cursor, arraysize):
             yield result
 
 class SQLiteInteraction:
-    
+
     def __init__(self, db_file):
 
         self.db_file = db_file
