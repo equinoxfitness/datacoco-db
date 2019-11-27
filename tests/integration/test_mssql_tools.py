@@ -1,6 +1,7 @@
 
 import unittest
 import tempfile
+import os
 
 from codb.mssql_tools import MSSQLInteraction
 from codb.helper.config import config
@@ -52,5 +53,6 @@ class TestMSSQLInteraction(unittest.TestCase):
         print('filename csv: ' + filename)
         result = self.testClass.export_sql_to_csv('select * from #TEST', filename)
         print(result)
+        os.close(new_file)
 
         self.testClass.batch_close()

@@ -1,5 +1,6 @@
 import unittest
 import tempfile
+import os
 
 from codb.pg_tools import PGInteraction
 from codb.helper.config import config
@@ -11,11 +12,11 @@ class TestPGInteraction(unittest.TestCase):
     def setUpClass(cls):
         try:
             test_conf = config(conf_path='db.test.cfg')['redshift']
-            cls.testClass = PGInteraction(dbname=test_conf['db_name'], 
-                host=test_conf['host'], 
-                user=test_conf['user'], 
-                password=test_conf['password'], 
-                port=test_conf['port'], 
+            cls.testClass = PGInteraction(dbname=test_conf['db_name'],
+                host=test_conf['host'],
+                user=test_conf['user'],
+                password=test_conf['password'],
+                port=test_conf['port'],
                 schema='public')
         except Exception as e:
             print(e)
@@ -51,11 +52,13 @@ class TestPGInteraction(unittest.TestCase):
         new_file, filename = tempfile.mkstemp()
         print('filename csv: ' + filename)
         self.testClass.export_sql_to_csv('select * from temp_sql_count', filename)
+        os.close(new_file)
 
         # export to json
         new_file, filename = tempfile.mkstemp()
         print('filename json: ' + filename)
         self.testClass.export_sql_to_json('select * from temp_sql_count', filename)
+        os.close(new_file)
 
         # export to s3
         aws_conf = config(conf_path='db.test.cfg')['aws']
