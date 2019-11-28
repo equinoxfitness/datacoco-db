@@ -20,7 +20,7 @@ pipeline{
     stages{
         stage('Coverage to Codacy'){
             steps {
-                slackSend (color: 'good', message: "datacoco_secretsmanager_pypi_pipeline_${GIT_BRANCH} - Starting build #${BUILD_NUMBER}. (<${env.BUILD_URL}|Open>)")
+                slackSend (color: 'good', message: "datacoco_db_pypi_pipeline_${GIT_BRANCH} - Starting build #${BUILD_NUMBER}. (<${env.BUILD_URL}|Open>)")
 
                 echo "coverage"
            
