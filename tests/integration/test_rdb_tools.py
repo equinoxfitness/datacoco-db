@@ -1,5 +1,6 @@
 import unittest
 
+from datetime import date
 from codb.rdb_tools import DBInteraction
 from codb.helper.config import config
 
@@ -10,13 +11,15 @@ class TestDBInteraction(unittest.TestCase):
         print('--------------test_fetch_sql_all')
         mssql_conf = config(conf_path='db.test.cfg')['mssql']
         self.testClass = DBInteraction(config=mssql_conf)
-        result = self.testClass.fetch_sql_all('select current_timestamp')
+        result = self.testClass.fetch_sql_one('select CONVERT(date, current_timestamp)')
+        self.assertEqual(result[0], date.today())
 
     def test_fetch_sql_one_empty_string(self):
         print('--------------test__fetch_sql_one')
         mssql_conf = config(conf_path='db.test.cfg')['mssql']
         self.testClass = DBInteraction(config=mssql_conf)
-        result = self.testClass.fetch_sql_one('')
+        result = self.testClass.fetch_sql_one('SELECT \'\'')
+        self.assertEqual(result[0], '')
 
     def test_mssql_fetch_sql_one(self):
         print('--------------test_cosmo_fetch_sql_one')
