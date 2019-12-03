@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import MagicMock
 
-from codb.mssql_tools import MSSQLInteraction
+from datacoco_db.mssql_tools import MSSQLInteraction
 
 
 class TestMSSQLInteraction(unittest.TestCase):

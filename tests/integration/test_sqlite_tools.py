@@ -1,6 +1,6 @@
 import unittest
 
-from codb.sqlite_tools import SQLiteInteraction
+from datacoco_db.sqlite_tools import SQLiteInteraction
 
 
 class TestSQLiteInteraction(unittest.TestCase):

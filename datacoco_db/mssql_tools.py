@@ -5,8 +5,8 @@ import csv
 import re
 
 import pytds
-from codb.helper.config import config
-from codb.helper.deprecate import deprecated
+from datacoco_db.helper.config import config
+from datacoco_db.helper.deprecate import deprecated
 
 CONF = config()
 

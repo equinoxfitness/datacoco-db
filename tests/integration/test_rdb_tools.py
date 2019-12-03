@@ -1,8 +1,8 @@
 import unittest
 
 from datetime import date
-from codb.rdb_tools import DBInteraction
-from codb.helper.config import config
+from datacoco_db.rdb_tools import DBInteraction
+from datacoco_db.helper.config import config
 
 
 class TestDBInteraction(unittest.TestCase):

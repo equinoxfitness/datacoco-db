@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-from codb import VERSION
+from datacoco_db import VERSION
 
 setup(
     name="datacoco-db",

@@ -1,7 +1,7 @@
 import unittest
 
-from codb.mysql_tools import MYSQLInteraction
-from codb.helper.config import config
+from datacoco_db.mysql_tools import MYSQLInteraction
+from datacoco_db.helper.config import config
 
 class TestMYSQLInteraction(unittest.TestCase):
 

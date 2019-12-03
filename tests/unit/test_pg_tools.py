@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import MagicMock
 
-from codb.pg_tools import PGInteraction
+from datacoco_db.pg_tools import PGInteraction
 
 
 class TestPGInteraction(unittest.TestCase):

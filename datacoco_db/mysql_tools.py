@@ -4,7 +4,7 @@
 import pymysql.cursors
 import pymysql
 
-from codb.helper.config import config
+from datacoco_db.helper.config import config
 
 CONF = config()
 

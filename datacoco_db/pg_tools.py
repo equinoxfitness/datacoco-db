@@ -6,7 +6,7 @@ import psycopg2.extras
 import simplejson as json
 
 from psycopg2 import errorcodes
-from codb.helper.deprecate import deprecated
+from datacoco_db.helper.deprecate import deprecated
 
 
 def _result_iter(cursor, arraysize):

@@ -2,8 +2,8 @@ import unittest
 import tempfile
 import os
 
-from codb.pg_tools import PGInteraction
-from codb.helper.config import config
+from datacoco_db.pg_tools import PGInteraction
+from datacoco_db.helper.config import config
 
 
 class TestPGInteraction(unittest.TestCase):

@@ -3,8 +3,8 @@ import unittest
 import tempfile
 import os
 
-from codb.mssql_tools import MSSQLInteraction
-from codb.helper.config import config
+from datacoco_db.mssql_tools import MSSQLInteraction
+from datacoco_db.helper.config import config
 
 
 class TestMSSQLInteraction(unittest.TestCase):
