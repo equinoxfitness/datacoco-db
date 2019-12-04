@@ -5,12 +5,10 @@ import csv
 import re
 
 import pytds
-from cocore.Logger import Logger
-from cocore.config import Config
-from codb.helper.deprecate import deprecated
+from datacoco_db.helper.config import config
+from datacoco_db.helper.deprecate import deprecated
 
-LOG = Logger()
-CONF = Config()
+CONF = config()
 
 
 def _result_iter(cursor, arraysize):
@@ -20,9 +18,9 @@ def _result_iter(cursor, arraysize):
         results = cursor.fetchmany(arraysize)
         count += len(results)
         if not results:
-            LOG.l("no rows to process")
+            print("no rows to process")
             break
-        LOG.l("%s rows processed" % count)
+        print("%s rows processed" % count)
         for result in results:
             yield result
 
@@ -140,7 +138,7 @@ class MSSQLInteraction:
         result = self.fetch_sql(sql, params)
 
         f = open(csv_filename, "w", newline="")
-        LOG.l("exporting to file:" + f.name)
+        print("exporting to file:" + f.name)
         writer = csv.writer(f, delimiter=delimiter)
         if headers:
             # write headers if we have them

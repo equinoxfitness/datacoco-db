@@ -4,9 +4,9 @@
 import pymysql.cursors
 import pymysql
 
-from cocore.config import Config
+from datacoco_db.helper.config import config
 
-CONF = Config()
+CONF = config()
 
 
 class MYSQLInteraction:

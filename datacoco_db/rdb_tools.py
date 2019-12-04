@@ -4,14 +4,10 @@
 """
 
 import sqlalchemy
-from cocore.Logger import Logger
-from cocore.config import Config
 from sqlalchemy.sql import text
 from sqlalchemy.dialects import registry
 
 registry.register("mssql.pytds", "sqlalchemy_pytds.dialect", "MSDialect_pytds")
-
-l = Logger()
 
 
 # iter from old datacoco also suggested for sqlalchemy
