@@ -1,8 +1,10 @@
+#!/usr/bin/env python
 """
     SQLiteInteraction
 """
 import sqlite3
 from sqlite3 import Error
+
 
 def _result_iter(cursor, arraysize):
     """
@@ -19,7 +21,11 @@ def _result_iter(cursor, arraysize):
         for result in results:
             yield result
 
+
 class SQLiteInteraction:
+    """
+    Simple class for interaction with SQLite
+    """
 
     def __init__(self, db_file):
 
