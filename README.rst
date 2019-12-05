@@ -10,10 +10,50 @@ Datacoco - DB
 Equinox Common Code Utility for Python 3 for DB interactions! There are
 currently interaction classes for the following DBs and Apps:
 
--  Postgres/Redshift
 -  MSSQL
 -  MySQL
--  SQLITE
+-  SQLite
+-  Postgres
+-  Redshift
+
+Quick Start
+-----------
+
+Sample Usage
+
+::
+
+    from datacoco_db import MSSQLInteraction
+
+    mssql = MSSQLInteraction(dbname="db_name",
+                            host="server",
+                            user="user",
+                            password="password",
+                            port=1433)
+
+    mssql.conn() # open a connection
+    
+    mssql.batch_open() # cursor
+
+    results = mssql.fetch_sql_one("SELECT * FROM MyTable") # fetch one
+
+    print(results)
+
+    mssql.batch_close() # close cursor
+
+The example above makes use of mssql_tools. 
+All tools follows the same pattern in terms of usage.
+
+Installation
+------------
+
+datacoco-db requires Python 3.6+
+
+::
+
+    python3 -m venv <virtual env name>
+    source <virtual env name>/bin/activate
+    pip install datacoco-db
 
 Development
 -----------
@@ -21,27 +61,24 @@ Development
 Getting Started
 ~~~~~~~~~~~~~~~
 
-It is recommended to use the steps below to set up a virtual environment
-for development:
+It is recommended to use the steps below to set up a virtual environment for development:
 
 ::
 
     python3 -m venv <virtual env name>
-    source venv/bin/activate
-    pip install -r requirements-dev.txt
-
-prepare ``etl.cfg`` at the root folder using key and values from
-``tests/test_data/db.test.cfg``
+    source <virtual env name>/bin/activate
+    pip install -r requirements.txt
 
 Testing
 ~~~~~~~
 
-prepare db.test.cfg at the root folder using key and values from
-``tests/test_data/db.test.cfg``
+::
 
-Run - All tests python -m unittest discover tests - Unit tests python -m
-unittest discover tests.unit - Integration tests python -m unittest
-discover tests.integration
+    pip install -r requirements-dev.txt
+
+Modify the connection configuration for integration testing.
+
+To run the testing suite, simply run the command: ``python -m unittest discover tests``
 
 For coverage report, run ``tox`` View the results in
 .tox/coverage/index.html
