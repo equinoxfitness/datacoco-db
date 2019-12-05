@@ -1,4 +1,7 @@
-""" PGInteraction """
+#!/usr/bin/env python
+"""
+    PGInteraction
+"""
 
 import csv
 import psycopg2
@@ -20,10 +23,12 @@ def _result_iter(cursor, arraysize):
 
 
 class PGInteraction:
-    """Postgres Interaction - Simple Class for interaction with Postgres"""
+    """
+    Simple Class for interaction with Postgres
+    """
 
     def __init__(self, dbname, host, user, password, port, schema="public"):
-        if not dbname or not host or not user or password is None:
+        if not dbname or not host or not user or not port or password is None:
             raise RuntimeError("%s request all __init__ arguments" % __name__)
 
         self.host = host
@@ -37,7 +42,7 @@ class PGInteraction:
 
     def conn(self, dict_cursor=False):
         """
-            Open a connection, should be done right before time of insert
+        Open a connection, should be done right before time of insert
         """
         self.con = psycopg2.connect(
             "dbname="
@@ -59,7 +64,9 @@ class PGInteraction:
 
     def batch_open(self):
         if self.dict_cursor:
-            self.cur = self.con.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+            self.cur = self.con.cursor(
+                cursor_factory=psycopg2.extras.RealDictCursor
+            )
         else:
             self.cur = self.con.cursor()
 
@@ -82,7 +89,8 @@ class PGInteraction:
         try:
             self.cur.execute(sql)
             results = self.cur.fetchall()
-        except Exception as e:
+        except Exception as err:
+            print(err)
             raise
         return results
 
@@ -95,16 +103,22 @@ class PGInteraction:
             raise RuntimeError(pgError)
         return results
 
-    def export_sql_to_csv(self, sql, csv_filename, delimiter=",", headers=True):
+    def export_sql_to_csv(
+        self, sql, csv_filename, delimiter=",", headers=True
+    ):
         result = self.fetch_sql(sql)
 
         f = open(csv_filename, "w", newline="")
         print("exporting to file:" + f.name)
         writer = csv.writer(f, delimiter=delimiter)
         if headers:
-            writer.writerow([i[0] for i in self.cur.description])  # write headers
+            writer.writerow(
+                [i[0] for i in self.cur.description]
+            )  # write headers
         for row in result:
-            writer.writerow([str(s).replace("\t", " ").replace("\n", " ") for s in row])
+            writer.writerow(
+                [str(s).replace("\t", " ").replace("\n", " ") for s in row]
+            )
         f.flush()
         f.close()
 
@@ -141,8 +155,12 @@ class PGInteraction:
             options = default_options
 
         self.unload_stmt = (
-            """unload ('%s') to '%s' credentials 'aws_access_key_id=%s;aws_secret_access_key=%s' %s"""
-            % (sql, s3path, aws_access_key, aws_secret_key, " ".join(options))
+            ("unload ('%s') to '%s' " % (sql, s3path))
+            + ("credentials 'aws_access_key_id=%s" % (aws_access_key))
+            + (
+                ";aws_secret_access_key=%s' %s"
+                % (aws_secret_key, " ".join(options))
+            )
         )
         print("unload command %s " % self.unload_stmt)
         self.exec_sql(self.unload_stmt)
@@ -157,7 +175,7 @@ class PGInteraction:
             raise RuntimeError(pgError)
         return results
 
-    @deprecated('Use bulk_dictionary_insert() instead')
+    @deprecated("Use bulk_dictionary_insert() instead")
     def bulkDictionaryInsert(self, table_name, col_dict):
         self.bulk_dictionary_insert(table_name, col_dict)
 
@@ -186,11 +204,11 @@ class PGInteraction:
 
     def bulk_post_cleanup(self, table_name):
         sql = """
-                  delete from {0}
-                  where etl_updated=0
-                  and nk in (select nk from {0} where etl_updated = 1);
+            delete from {0}
+            where etl_updated=0
+            and nk in (select nk from {0} where etl_updated = 1);
 
-                  update {0} set etl_updated = 0 where etl_updated = 1;""".format(
+            update {0} set etl_updated = 0 where etl_updated = 1;""".format(
             table_name
         )
 
@@ -201,10 +219,11 @@ class PGInteraction:
             raise RuntimeError(pgError)
 
     def table_exists(self, table_name):
-        """Checks for the existence of a table in specified redshift environment
+        """
+        Checks for the existence of a table in specified redshift environment
 
         :param connection: A redshift connection
-        :param table_name: The table name, including schema, that should be checked for existence
+        :param table_name: The table name, including schema
         :return: A boolean value indicating the tables existence
         """
         schema_name = "public"
@@ -226,7 +245,7 @@ class PGInteraction:
 
         return self.fetch_sql_all(sql)[0]
 
-    @deprecated('Use batch_close instead')
+    @deprecated("Use batch_close instead")
     def batchClose(self):
         self.batch_close()
 

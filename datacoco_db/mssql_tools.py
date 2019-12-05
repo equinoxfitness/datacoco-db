@@ -1,14 +1,12 @@
+#!/usr/bin/env python
 """
     MSSQLInteraction
 """
 import csv
 import re
-
 import pytds
-from datacoco_db.helper.config import config
-from datacoco_db.helper.deprecate import deprecated
 
-CONF = config()
+from datacoco_db.helper.deprecate import deprecated
 
 
 def _result_iter(cursor, arraysize):
@@ -35,34 +33,14 @@ def csv_cleanup(raw_s):
 
 class MSSQLInteraction:
     """
-        simple class for interacting with MSSQL
+    Simple class for interacting with MSSQL
     """
 
     def __init__(
-        self,
-        dbname=None,
-        host=None,
-        user=None,
-        password=None,
-        connection=None,
-        port=1433,
+        self, dbname=None, host=None, user=None, password=None, port=None,
     ):
-
-        # if there is a connection, we will pull from config,
-        # else we use the individual connection pararameters (this is really just for backward compatibility
-        if connection:
-            user = CONF[connection]["user"]
-            password = CONF[connection]["password"]
-            host = CONF[connection]["server"]
-            dbname = CONF[connection]["db_name"]
-            try:
-                port = CONF[connection]["port"]
-            except KeyError:
-                port = 1433
-
-        else:
-            if not dbname or not host or not user or password is None:
-                raise RuntimeError("%s request all __init__ arguments" % __name__)
+        if not dbname or not host or not user or not port or password is None:
+            raise RuntimeError("%s request all __init__ arguments" % __name__)
 
         self.host = host
         self.user = user
@@ -73,7 +51,8 @@ class MSSQLInteraction:
         self.cur = None
 
     def conn(self, dict_cursor=False):
-        """Open a connection, should be done right before time of insert
+        """
+        Open a connection, should be done right before time of insert
         """
         if "\\" in self.host:
             self.con = pytds.connect(
@@ -106,7 +85,8 @@ class MSSQLInteraction:
         try:
             self._execute_with_or_without_params(sql, params)
             results = self.cur.fetchall()
-        except Exception as e:
+        except Exception as err:
+            print(err)
             raise
         return results
 
@@ -114,7 +94,8 @@ class MSSQLInteraction:
         try:
             self._execute_with_or_without_params(sql, params)
             results = _result_iter(self.cur, arraysize=blocksize)
-        except Exception as e:
+        except Exception as err:
+            print(err)
             raise
         return results
 
@@ -185,8 +166,9 @@ class MSSQLInteraction:
         """
         if params:
             if not isinstance(params, tuple):
-                raise ValueError("Passed in parameters must be in a tuple: %s", params)
+                raise ValueError(
+                    "Passed in parameters must be in a tuple: %s", params
+                )
             self.cur.execute(sql, params)
         else:
             self.cur.execute(sql)
-

@@ -1,12 +1,9 @@
+#!/usr/bin/env python
 """
     MYSQLInteraction
 """
 import pymysql.cursors
 import pymysql
-
-from datacoco_db.helper.config import config
-
-CONF = config()
 
 
 class MYSQLInteraction:
@@ -15,30 +12,10 @@ class MYSQLInteraction:
     """
 
     def __init__(
-        self,
-        dbname=None,
-        host=None,
-        user=None,
-        password=None,
-        connection=None,
-        port=3306,
+        self, dbname=None, host=None, user=None, password=None, port=None,
     ):
-
-        # if there is a connection, we will pull from config,
-        # else we use the individual connection pararameters (this is really just for backward compatibility
-        if connection:
-            user = CONF[connection]["user"]
-            password = CONF[connection]["password"]
-            host = CONF[connection]["host"]
-            dbname = CONF[connection]["db_name"]
-            try:
-                port = CONF[connection]["port"]
-            except KeyError:
-                port = 3306
-
-        else:
-            if not dbname or not host or not user or password is None:
-                raise RuntimeError("%s request all __init__ arguments" % __name__)
+        if not dbname or not host or not user or not port or password is None:
+            raise RuntimeError("%s request all __init__ arguments" % __name__)
 
         self.host = host
         self.user = user
@@ -51,8 +28,7 @@ class MYSQLInteraction:
 
     def conn(self, dict_cursor=False):
         """
-
-            Open a connection, should be done right before time of insert
+        Open a connection, should be done right before time of insert
         """
         try:
             options = {
@@ -67,6 +43,7 @@ class MYSQLInteraction:
             self.con = pymysql.connect(**options)
             self.dict_cursor = dict_cursor
         except Exception as err:
+            print(err)
             raise
 
     def batch_open(self):
@@ -82,7 +59,8 @@ class MYSQLInteraction:
         try:
             self.cur.execute(sql)
             results = self.cur.fetchall()
-        except Exception as e:
+        except Exception as err:
+            print(err)
             raise
         return results
 
@@ -90,7 +68,8 @@ class MYSQLInteraction:
         try:
             self.cur.execute(sql)
             result = self.cur.fetchone()
-        except Exception as e:
+        except Exception as err:
+            print(err)
             raise
         return result
 
