@@ -4,7 +4,6 @@ from datacoco_db.sqlite_tools import SQLiteInteraction
 
 
 class TestSQLiteInteraction(unittest.TestCase):
-
     @classmethod
     def setUpClass(cls):
         try:
@@ -32,35 +31,36 @@ class TestSQLiteInteraction(unittest.TestCase):
             """
                 INSERT INTO temp_test_sql (id,name) VALUES (1, 'mark');
             """
-            )
+        )
         self.testClass.exec_sql(
             """
                 INSERT INTO temp_test_sql (id,name) VALUES (2, 'alex')
             """
-            )
+        )
         self.testClass.batch_commit()
 
         result1 = self.testClass.fetch_sql(
             """
                 SELECT * FROM temp_test_sql ORDER BY id ASC;
             """,
-            blocksize=1)
+            blocksize=1,
+        )
         result1 = list(result1)
-        self.assertEqual(result1[0], (1, 'mark'))
+        self.assertEqual(result1[0], (1, "mark"))
 
         result2 = self.testClass.fetch_sql_all(
             """
                 SELECT * FROM temp_test_sql ORDER BY id ASC;
             """
-            )
-        self.assertEqual(result2, [(1, 'mark'), (2, 'alex')])
+        )
+        self.assertEqual(result2, [(1, "mark"), (2, "alex")])
 
         result3 = self.testClass.fetch_sql_one(
             """
                 SELECT * FROM temp_test_sql ORDER BY id ASC;
             """
-            )
-        self.assertEqual(result3, (1, 'mark'))
+        )
+        self.assertEqual(result3, (1, "mark"))
 
         self.testClass.exec_sql(
             """

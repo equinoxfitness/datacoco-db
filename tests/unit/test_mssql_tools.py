@@ -5,10 +5,10 @@ from datacoco_db.mssql_tools import MSSQLInteraction
 
 
 class TestMSSQLInteraction(unittest.TestCase):
-
     def test_exec_sql(self):
-        testCls = MSSQLInteraction(host='host', dbname='db_name',
-                                              user='user', password='password')
+        testCls = MSSQLInteraction(
+            host="host", dbname="db_name", user="user", password="password"
+        )
         testCls.cur = MagicMock()
         testCls.con = MagicMock()
         testCls.exec_sql(
@@ -16,11 +16,12 @@ class TestMSSQLInteraction(unittest.TestCase):
                IF OBJECT_ID('#TEST', 'U') IS NOT NULL
                DROP TABLE #TEST;
            """
-    )
+        )
 
     def test_fetch_sql_all(self):
-        testCls = MSSQLInteraction(host='host', dbname='db_name',
-                                   user='user', password='password')
+        testCls = MSSQLInteraction(
+            host="host", dbname="db_name", user="user", password="password"
+        )
         testCls.cur = MagicMock()
         testCls.con = MagicMock()
         testCls.fetch_sql_all(
@@ -28,23 +29,12 @@ class TestMSSQLInteraction(unittest.TestCase):
                IF OBJECT_ID('#TEST', 'U') IS NOT NULL
                DROP TABLE #TEST;
            """
-    )
-
-    def test_fetch_sql_all(self):
-        testCls = MSSQLInteraction(host='host', dbname='db_name',
-                                   user='user', password='password')
-        testCls.cur = MagicMock()
-        testCls.con = MagicMock()
-        testCls.fetch_sql_all(
-            """
-               IF OBJECT_ID('#TEST', 'U') IS NOT NULL
-               DROP TABLE #TEST;
-           """
-    )
+        )
 
     def test_fetch_sql_one(self):
-        testCls = MSSQLInteraction(host='host', dbname='db_name',
-                                   user='user', password='password')
+        testCls = MSSQLInteraction(
+            host="host", dbname="db_name", user="user", password="password"
+        )
         testCls.cur = MagicMock()
         testCls.con = MagicMock()
         testCls.fetch_sql_one(
@@ -55,9 +45,9 @@ class TestMSSQLInteraction(unittest.TestCase):
         )
 
     def test_get_table_columns(self):
-        testCls = MSSQLInteraction(host='host', dbname='db_name',
-                                   user='user', password='password')
+        testCls = MSSQLInteraction(
+            host="host", dbname="db_name", user="user", password="password"
+        )
         testCls.cur = MagicMock()
         testCls.con = MagicMock()
-        testCls.get_table_columns('my_db.mytable')
-
+        testCls.get_table_columns("my_db.mytable")
