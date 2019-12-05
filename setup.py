@@ -1,11 +1,18 @@
+import os
+import re
 from setuptools import setup, find_packages
 
-from datacoco_db import VERSION
+
+def get_version():
+    version_file = open(os.path.join("datacoco_db", "__version__.py"))
+    version_contents = version_file.read()
+    return re.search('__version__ = "(.*?)"', version_contents).group(1)
+
 
 setup(
     name="datacoco-db",
     packages=find_packages(exclude=["tests*"]),
-    version=VERSION,
+    version=get_version(),
     license="MIT",
     description="common code for DBs",
     long_description=open("README.rst").read(),
