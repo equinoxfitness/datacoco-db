@@ -16,3 +16,7 @@ class TestPGInteraction(unittest.TestCase):
         )
         testClass.cur = MagicMock()
         testClass.bulk_dictionary_insert("table_name", {"key": "value"})
+
+
+if __name__ == "__main__":
+    unittest.main()

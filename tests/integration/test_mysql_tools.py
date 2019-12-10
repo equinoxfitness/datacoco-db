@@ -64,3 +64,7 @@ class TestMYSQLInteraction(unittest.TestCase):
         )
         self.testClass.batch_commit()
         self.testClass.batch_close()
+
+
+if __name__ == "__main__":
+    unittest.main()

@@ -101,3 +101,7 @@ class TestDBInteraction(unittest.TestCase):
             "test_password@test_server:1433/test_db_name"
         )
         self.assertEqual(True, from_conf == expected_res)
+
+
+if __name__ == "__main__":
+    unittest.main()

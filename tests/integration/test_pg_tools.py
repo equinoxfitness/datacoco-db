@@ -75,3 +75,7 @@ class TestPGInteraction(unittest.TestCase):
         )
 
         self.testClass.batch_close()
+
+
+if __name__ == "__main__":
+    unittest.main()

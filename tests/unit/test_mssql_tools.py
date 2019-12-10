@@ -51,3 +51,7 @@ class TestMSSQLInteraction(unittest.TestCase):
         testCls.cur = MagicMock()
         testCls.con = MagicMock()
         testCls.get_table_columns("my_db.mytable")
+
+
+if __name__ == "__main__":
+    unittest.main()
