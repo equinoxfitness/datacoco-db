@@ -25,26 +25,25 @@ pipeline{
                 echo "coverage"
            
                 sh "pip install -r requirements-dev.txt"
-                // sh "black --check datacoco_db tests"
-                // sh "pip install coverage codacy-coverage"
-                // sh "coverage run -m unittest tests/test_secrets.py"
-                // sh "coverage xml -i"
-                // sh "python-codacy-coverage -r coverage.xml"
+                sh "black --check datacoco_db tests"
+                sh "pip install coverage codacy-coverage"
+                sh "coverage run -m unittest tests/unit"
+                sh "coverage xml -i"
+                sh "python-codacy-coverage -r coverage.xml"
             }
             post {
                 always {
-                    echo "plugin"
-                    // step([$class: 'CoberturaPublisher',
-                    //                autoUpdateHealth: false,
-                    //                autoUpdateStability: false,
-                    //                coberturaReportFile: 'coverage.xml',
-                    //                failNoReports: false,
-                    //                failUnhealthy: false,
-                    //                failUnstable: false,
-                    //                maxNumberOfBuilds: 10,
-                    //                onlyStable: false,
-                    //                sourceEncoding: 'ASCII',
-                    //                zoomCoverageChart: false])
+                    step([$class: 'CoberturaPublisher',
+                                   autoUpdateHealth: false,
+                                   autoUpdateStability: false,
+                                   coberturaReportFile: 'coverage.xml',
+                                   failNoReports: false,
+                                   failUnhealthy: false,
+                                   failUnstable: false,
+                                   maxNumberOfBuilds: 10,
+                                   onlyStable: false,
+                                   sourceEncoding: 'ASCII',
+                                   zoomCoverageChart: false])
                 }
             }       
         }
