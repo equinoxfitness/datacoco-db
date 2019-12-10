@@ -24,22 +24,30 @@ def _result_iter(cursor, arraysize):
 
 class DBInteraction:
     """
-        This module provides a simple wrapper on top of SqlAlchemy
+    This module provides a simple wrapper on top of SqlAlchemy
     """
-    def __init__(self, connection=None, config=None):
 
-        if connection:
-            conf = Config()[connection]
-        else:
-            conf = config
+    def __init__(
+        self,
+        dbtype=None,
+        dbname=None,
+        host=None,
+        user=None,
+        password=None,
+        port=None,
+    ):
+        if not dbname or not host or not user or not port or password is None:
+            raise RuntimeError("%s request all __init__ arguments" % __name__)
 
-        self.url = DBInteraction.url_from_conf(conf)
+        self.url = DBInteraction.url_from_conf(
+            dbtype, dbname, host, user, password, port
+        )
 
         # Used for explicit connectionless execution
         self.con = sqlalchemy.create_engine(self.url)
 
         # Necessary for splitting common functions from each other
-        self.db_type = conf.get("type", "")
+        self.db_type = dbtype
 
         part = self.url.split(":", 3)
         db = part[2].split("@")
@@ -63,7 +71,9 @@ class DBInteraction:
     def fetch_sql_one(self, sql):
         try:
             statements = sql.strip().split(";")
-            statements = list(map(lambda x: self.remove_comments(x), statements))
+            statements = list(
+                map(lambda x: self.remove_comments(x), statements)
+            )
             statements = list(filter(lambda x: x.strip() != "", statements))
             index = 0
             for statement in statements:
@@ -80,10 +90,12 @@ class DBInteraction:
             print(
                 """
                Something is not right with the query, please check query
-               1. Avoid comments at the start of the query, if you do use a comment at the start. add `;` at the end of the comment.
-               2. Multi-line-statement is allowed, it's just that we make sure that select query is at the last statement
+               1. Avoid comments at the start of the query, if you do use a
+               comment at the start. add `;` at the end of the comment.
+               2. Multi-line-statement is allowed, it's just that we make sure
+               that select query is at the last statement
                3. Let's use this function for fetching.
-+           """
+            """
             )
 
             raise e
@@ -137,7 +149,8 @@ class DBInteraction:
         try:
             if x.strip().index("--") == 0:
                 return x.replace(x[x.index("--") :], "")
-        except Exception as e:
+        except Exception as err:
+            print(err)
             pass
         return x
 
@@ -148,7 +161,7 @@ class DBInteraction:
         :return: None
         """
         try:
-            # sqlalchemy does not require params to be tuple but this is easy for now
+            # sqlalchemy does not require params to be tuple
             if params:
                 if not isinstance(params, tuple):
                     raise ValueError(
@@ -158,40 +171,46 @@ class DBInteraction:
                     text(sql).execution_options(autocommit=True), params
                 )
             else:
-                results = self.con.execute(text(sql).execution_options(autocommit=True))
+                results = self.con.execute(
+                    text(sql).execution_options(autocommit=True)
+                )
             return results
         except Exception as e:
             raise e
 
     @staticmethod
-    def url_from_conf(conf):
-        type = conf.get("type", "")
-        if type == "postgres":
+    def url_from_conf(
+        dbtype=None,
+        dbname=None,
+        host=None,
+        user=None,
+        password=None,
+        port=None,
+    ):
+        if dbtype == "postgres":
             url = "postgresql+psycopg2://%s:%s@%s:%s/%s" % (
-                conf["user"],
-                conf["password"],
-                conf["host"],
-                str(conf.get("port", "5439")),
-                conf["db_name"],
+                user,
+                password,
+                host,
+                port,
+                dbname,
             )
-        elif type == "mssql":
+        elif dbtype == "mssql":
             url = "mssql+pytds://%s:%s@%s:%s/%s" % (
-                conf["user"],
-                conf["password"],
-                conf["server"],
-                str(conf.get("port", "1433")),
-                conf["db_name"],
+                user,
+                password,
+                host,
+                port,
+                dbname,
             )
-        elif type == "mysql":
+        elif dbtype == "mysql":
             url = "mysql+pymysql://%s:%s@%s:%s/%s" % (
-                conf["user"],
-                conf["password"],
-                conf["host"],
-                str(conf.get("port", "3306")),
-                conf["db_name"],
+                user,
+                password,
+                host,
+                port,
+                dbname,
             )
         else:
             url = ""
         return url
-
-
