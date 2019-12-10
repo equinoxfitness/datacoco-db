@@ -187,8 +187,7 @@ class DBInteraction:
         password=None,
         port=None,
     ):
-        type = dbtype
-        if type == "postgres":
+        if dbtype == "postgres":
             url = "postgresql+psycopg2://%s:%s@%s:%s/%s" % (
                 user,
                 password,
@@ -196,7 +195,7 @@ class DBInteraction:
                 port,
                 dbname,
             )
-        elif type == "mssql":
+        elif dbtype == "mssql":
             url = "mssql+pytds://%s:%s@%s:%s/%s" % (
                 user,
                 password,
@@ -204,7 +203,7 @@ class DBInteraction:
                 port,
                 dbname,
             )
-        elif type == "mysql":
+        elif dbtype == "mysql":
             url = "mysql+pymysql://%s:%s@%s:%s/%s" % (
                 user,
                 password,
