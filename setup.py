@@ -24,5 +24,6 @@ setup(
         "simplejson==3.14.0",
         "sqlalchemy==1.3.0b1",
         "PyMySQL==0.9.3",
+        "jsonschema==3.2.0",
     ],
 )
