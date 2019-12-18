@@ -130,11 +130,11 @@ class PGInteraction:
     def json_serialize(self, dict_obj):
         """For conversion of python value to json value during encoding."""
         for key, val in dict_obj.items():
-            if isinstance(val, str) and val == 'true':
+            if isinstance(val, str) and val == "true":
                 val = True
-            if isinstance(val, str) and val == 'false':
+            if isinstance(val, str) and val == "false":
                 val = False
-            if isinstance(val, str) and val.lower() in ('null', 'none'):
+            if isinstance(val, str) and val.lower() in ("null", "none"):
                 val = None
             dict_obj[key] = val
 
@@ -145,18 +145,21 @@ class PGInteraction:
             validate(json.loads(json_string), json_schema)
 
         except ValidationError as e:
-            raise InvalidJsonResult('Invalid JSON found {}'.format(e.message))
+            raise InvalidJsonResult("Invalid JSON found {}".format(e.message))
 
     def export_sql_to_json(self, sql, filename, json_schema=None):
         results = self.fetch_sql(sql)
 
-        with open(filename, 'w') as f:
+        with open(filename, "w") as f:
             json_results = json.dumps(
-                (self.json_serialize(record) for record in results), iterable_as_array=True)
+                (self.json_serialize(record) for record in results),
+                iterable_as_array=True,
+            )
 
             if json_schema:
-                self.validate_json_scheme(json_string=json_results,
-                                          json_schema=json_schema)
+                self.validate_json_scheme(
+                    json_string=json_results, json_schema=json_schema
+                )
 
             f.write(json_results)
 

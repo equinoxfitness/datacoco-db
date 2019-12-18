@@ -7,7 +7,11 @@ from datacoco_db.mssql_tools import MSSQLInteraction
 class TestMSSQLInteraction(unittest.TestCase):
     def test_exec_sql(self):
         testCls = MSSQLInteraction(
-            host="host", dbname="db_name", user="user", password="password", port="3306"
+            host="host",
+            dbname="db_name",
+            user="user",
+            password="password",
+            port="3306",
         )
         testCls.cur = MagicMock()
         testCls.con = MagicMock()
@@ -20,7 +24,11 @@ class TestMSSQLInteraction(unittest.TestCase):
 
     def test_fetch_sql_all(self):
         testCls = MSSQLInteraction(
-            host="host", dbname="db_name", user="user", password="password", port="3306"
+            host="host",
+            dbname="db_name",
+            user="user",
+            password="password",
+            port="3306",
         )
         testCls.cur = MagicMock()
         testCls.con = MagicMock()
@@ -33,7 +41,11 @@ class TestMSSQLInteraction(unittest.TestCase):
 
     def test_fetch_sql_one(self):
         testCls = MSSQLInteraction(
-            host="host", dbname="db_name", user="user", password="password", port="3306"
+            host="host",
+            dbname="db_name",
+            user="user",
+            password="password",
+            port="3306",
         )
         testCls.cur = MagicMock()
         testCls.con = MagicMock()
@@ -46,7 +58,11 @@ class TestMSSQLInteraction(unittest.TestCase):
 
     def test_get_table_columns(self):
         testCls = MSSQLInteraction(
-            host="host", dbname="db_name", user="user", password="password", port="3306"
+            host="host",
+            dbname="db_name",
+            user="user",
+            password="password",
+            port="3306",
         )
         testCls.cur = MagicMock()
         testCls.con = MagicMock()

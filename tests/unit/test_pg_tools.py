@@ -35,7 +35,9 @@ class TestPGInteraction(unittest.TestCase):
         }
 
         testClass.cur = MagicMock()
-        testClass.validate_json_scheme(json.dumps({"name" : "Eggs", "price" : 34.99}), schema)
+        testClass.validate_json_scheme(
+            json.dumps({"name": "Eggs", "price": 34.99}), schema
+        )
 
 
 if __name__ == "__main__":
