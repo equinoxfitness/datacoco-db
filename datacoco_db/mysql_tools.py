@@ -12,7 +12,7 @@ class MYSQLInteraction:
     """
 
     def __init__(
-        self, dbname=None, host=None, user=None, password=None, port=None,
+        self, dbname=None, host=None, user=None, password=None, port=None
     ):
         if not dbname or not host or not user or not port or password is None:
             raise RuntimeError("%s request all __init__ arguments" % __name__)
