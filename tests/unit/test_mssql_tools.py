@@ -13,6 +13,15 @@ class TestMSSQLInteraction(unittest.TestCase):
             password="password",
             port="3306",
         )
+
+        testCls = MSSQLInteraction(
+            host="host",
+            dbname="db_name",
+            user="user",
+            password="password"
+        )  # Default port test
+
+
         testCls.cur = MagicMock()
         testCls.con = MagicMock()
         testCls.exec_sql(
