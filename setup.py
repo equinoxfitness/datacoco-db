@@ -14,7 +14,7 @@ setup(
     packages=find_packages(exclude=["tests*"]),
     version=get_version(),
     license="MIT",
-    description="common code for DBs",
+    description="Data common code for database interactions by Equinox",
     long_description=open("README.rst").read(),
     author="Equinox Fitness",
     url="https://github.com/equinoxfitness/datacoco-db",
