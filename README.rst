@@ -32,7 +32,7 @@ Sample Usage
                             port=1433)
 
     mssql.conn() # open a connection
-    
+
     mssql.batch_open() # cursor
 
     results = mssql.fetch_sql_one("SELECT * FROM MyTable") # fetch one
@@ -41,7 +41,7 @@ Sample Usage
 
     mssql.batch_close() # close cursor
 
-The example above makes use of mssql_tools. 
+The example above makes use of mssql_tools.
 All tools follows the same pattern in terms of usage.
 
 Installation
@@ -68,6 +68,13 @@ It is recommended to use the steps below to set up a virtual environment for dev
     python3 -m venv <virtual env name>
     source <virtual env name>/bin/activate
     pip install -r requirements.txt
+
+Pyodbc Dependency Installation
+------------------------------
+
+Installing the Microsoft ODBC Driver for SQL Server on Linux and macOS
+https://docs.microsoft.com/en-us/sql/connect/odbc/linux-mac/installing-the-microsoft-odbc-driver-for-sql-server?view=sql-server-ver15
+
 
 Testing
 ~~~~~~~

@@ -9,27 +9,28 @@ class TestMSSQLInteraction(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.testClass = MSSQLInteraction(
-            host="host",
-            dbname="db_name",
-            user="user",
-            password="password",
-            port=1433,
+            host='host',
+            driver='driver',
+            dbname='db_name',
+            user='username',
+            password='password',
         )
 
-    def test_database(self):
-        print("--------------test_database")
-        self.testClass.conn()
+        print("--------------setup_test_table")
+        conn = cls.testClass.conn()
 
-        self.testClass.batch_open()
+        cls.testClass.batch_open()
 
-        self.testClass.exec_sql(
+        # Drop table TEST if exists
+        cls.testClass.exec_sql(
             """
                 IF OBJECT_ID('#TEST', 'U') IS NOT NULL
                 DROP TABLE #TEST;
             """
         )
 
-        self.testClass.exec_sql(
+        # Create table TEST
+        cls.testClass.exec_sql(
             """
                        CREATE TABLE #TEST (
                         [name] varchar(256)
@@ -41,28 +42,40 @@ class TestMSSQLInteraction(unittest.TestCase):
                     """
         )
 
-        result = self.testClass.fetch_sql_all("select * from #TEST")
-        self.assertEqual(True, len(result) > 0)
-
-        result = self.testClass.fetch_sql_all(
-            "select count(*) from table_name"
-        )
-        print(result)
-
+    def test_get_table_columns(self):
         # get table columns
-        result = self.testClass.get_table_columns("table_name")
+        result = self.testClass.get_table_columns("dbo.cdc_activity")
         self.assertEqual(True, len(result) > 0)
 
+    def test_export_to_csv(self):
         # export sql to csv
         new_file, filename = tempfile.mkstemp()
-        print("filename csv: " + filename)
         result = self.testClass.export_sql_to_csv(
             "select * from #TEST", filename
         )
-        print(result)
-        os.close(new_file)
+        self.assertEqual(True, result)
 
-        self.testClass.batch_close()
+    def test_fetch_one(self):
+        results = self.testClass.fetch_sql(
+            sql="select * from #TEST where name = ?", params=("Mike",)
+        )
+        if results is not None:
+            for row in results:
+                self.assertEqual("Mike", row["name"])
+
+    def test_fetch_sql_one(self):
+        result = self.testClass.fetch_sql_one(sql="select * from #TEST;")
+        name, age = result
+        self.assertEqual("Mike", name)
+
+    def test_fetch_all(self):
+        result = self.testClass.fetch_sql_all("select * from #TEST")
+        self.assertEqual(True, len(result) > 0)
+
+    @classmethod
+    def tearDownClass(cls):
+        print("--------------tear down")
+        cls.testClass.batch_close()
 
 
 if __name__ == "__main__":

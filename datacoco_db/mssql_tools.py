@@ -4,23 +4,28 @@
 """
 import csv
 import re
-import pytds
+import pyodbc
 
 from datacoco_db.helper.deprecate import deprecated
 
 
-def _result_iter(cursor, arraysize):
+def _result_iter(cursor, arraysize: int = None):
     "An iterator that uses fetchmany to keep memory usage down"
     count = 0
     while True:
-        results = cursor.fetchmany(arraysize)
+        # Get the columns from cursor.description since pyodbc fetchmany() only returns tuple.
+        columns = [column[0] for column in cursor.description]
+        blocksize = 1
+        if arraysize is not None:
+            blocksize = arraysize
+        results = cursor.fetchmany(blocksize)
         count += len(results)
         if not results:
-            print("no rows to process")
+            LOG.l("no rows to process")
             break
-        print("%s rows processed" % count)
+        LOG.l("%s rows processed" % count)
         for result in results:
-            yield result
+            yield dict(zip(columns, result))
 
 
 NON_CSV_CHARS = re.compile(r"[\t\n]")
@@ -37,11 +42,25 @@ class MSSQLInteraction:
     """
 
     def __init__(
-        self, dbname=None, host=None, user=None, password=None, port=1433
+        self,
+        driver=None,
+        dbname=None,
+        host=None,
+        user=None,
+        password=None,
+        port=1433,
     ):
-        if not dbname or not host or not user or not port or password is None:
+        if (
+            not dbname
+            or not driver
+            or not host
+            or not user
+            or not port
+            or password is None
+        ):
             raise RuntimeError("%s request all __init__ arguments" % __name__)
 
+        self.driver = driver
         self.host = host
         self.user = user
         self.password = password
@@ -51,28 +70,14 @@ class MSSQLInteraction:
         self.cur = None
 
     def conn(self, dict_cursor=False):
+        """Open a connection, should be done right before time of insert
         """
-        Open a connection, should be done right before time of insert
-        """
-        if "\\" in self.host:
-            self.con = pytds.connect(
-                self.host,
-                self.dbname,
-                self.user,
-                self.password,
-                as_dict=dict_cursor,
-                login_timeout=360,
-            )
-        else:
-            self.con = pytds.connect(
-                self.host,
-                self.dbname,
-                self.user,
-                self.password,
-                port=self.port,
-                as_dict=dict_cursor,
-                login_timeout=360,
-            )
+        conf = f"DRIVER={self.driver};SERVER={self.host};DATABASE={self.dbname};UID={self.user};PWD={self.password};"
+
+        if "\\" not in self.host:
+            conf += f"PORT={self.port}"
+
+        self.con = pyodbc.connect(conf)
 
     @deprecated("Use batch_open() instead")
     def batchOpen(self):
@@ -83,19 +88,17 @@ class MSSQLInteraction:
 
     def fetch_sql_all(self, sql, params=None):
         try:
-            self._execute_with_or_without_params(sql, params)
-            results = self.cur.fetchall()
-        except Exception as err:
-            print(err)
+            res = self._execute_with_or_without_params(sql, params)
+            results = res.fetchall()
+        except Exception as e:
             raise
         return results
 
     def fetch_sql(self, sql, blocksize=1000, params=None):
         try:
-            self._execute_with_or_without_params(sql, params)
-            results = _result_iter(self.cur, arraysize=blocksize)
-        except Exception as err:
-            print(err)
+            res = self._execute_with_or_without_params(sql, params)
+            results = _result_iter(res, arraysize=blocksize)
+        except Exception as e:
             raise
         return results
 
@@ -117,17 +120,21 @@ class MSSQLInteraction:
         self, sql, csv_filename, delimiter=",", headers=True, params=None
     ):
         result = self.fetch_sql(sql, params)
-
-        f = open(csv_filename, "w", newline="")
-        print("exporting to file:" + f.name)
-        writer = csv.writer(f, delimiter=delimiter)
-        if headers:
-            # write headers if we have them
-            writer.writerow([i[0] for i in self.cur.description])
-        for row in result:
-            writer.writerow([csv_cleanup(s) for s in row])
-        f.flush()
-        f.close()
+        try:
+            f = open(csv_filename, "w", newline="")
+            LOG.l("exporting to file:" + f.name)
+            writer = csv.writer(f, delimiter=delimiter)
+            if headers:
+                # write headers if we have them
+                writer.writerow([i[0] for i in self.cur.description])
+            for row in result:
+                writer.writerow([csv_cleanup(s) for s in row])
+            f.flush()
+            f.close()
+            return True
+        except Exception as e:
+            LOG.l(f"Error {str(e)}")
+            return False
 
     @deprecated("Use get_table_columns() instead")
     def getTableColumns(self, table_name):
@@ -140,7 +147,7 @@ class MSSQLInteraction:
         sql = """
           SELECT column_name
           FROM information_schema.columns
-          WHERE table_schema = %s and table_name = %s;"""
+          WHERE table_schema = ? and table_name = ?;"""
         return self.fetch_sql_all(sql, params=(schema, table))
 
     def exec_sql(self, sql, auto_commit=True):
@@ -164,11 +171,11 @@ class MSSQLInteraction:
         :param params: The query parameters you should escape, may be None
         :return: None
         """
-        if params:
+        if params is not None:
             if not isinstance(params, tuple):
                 raise ValueError(
                     "Passed in parameters must be in a tuple: %s", params
                 )
-            self.cur.execute(sql, params)
+            return self.cur.execute(sql, params)
         else:
-            self.cur.execute(sql)
+            return self.cur.execute(sql)
