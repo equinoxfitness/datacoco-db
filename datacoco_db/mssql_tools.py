@@ -21,9 +21,7 @@ def _result_iter(cursor, arraysize: int = None):
         results = cursor.fetchmany(blocksize)
         count += len(results)
         if not results:
-            LOG.l("no rows to process")
             break
-        LOG.l("%s rows processed" % count)
         for result in results:
             yield dict(zip(columns, result))
 
@@ -122,7 +120,6 @@ class MSSQLInteraction:
         result = self.fetch_sql(sql, params)
         try:
             f = open(csv_filename, "w", newline="")
-            LOG.l("exporting to file:" + f.name)
             writer = csv.writer(f, delimiter=delimiter)
             if headers:
                 # write headers if we have them
@@ -133,7 +130,6 @@ class MSSQLInteraction:
             f.close()
             return True
         except Exception as e:
-            LOG.l(f"Error {str(e)}")
             return False
 
     @deprecated("Use get_table_columns() instead")
