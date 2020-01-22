@@ -196,12 +196,13 @@ class DBInteraction:
                 dbname,
             )
         elif dbtype == "mssql":
-            url = "mssql+pytds://%s:%s@%s:%s/%s" % (
+            url = "mssql+pyodbc://%s:%s@%s:%s/%s?driver=%s" % (
                 user,
                 password,
                 host,
                 port,
                 dbname,
+                driver,
             )
         elif dbtype == "mysql":
             url = "mysql+pymysql://%s:%s@%s:%s/%s" % (

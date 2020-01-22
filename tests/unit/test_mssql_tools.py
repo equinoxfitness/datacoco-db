@@ -8,6 +8,7 @@ class TestMSSQLInteraction(unittest.TestCase):
     def test_exec_sql(self):
         testCls = MSSQLInteraction(
             host="host",
+            driver="driver",
             dbname="db_name",
             user="user",
             password="password",
@@ -15,7 +16,7 @@ class TestMSSQLInteraction(unittest.TestCase):
         )
 
         testCls = MSSQLInteraction(
-            host="host", dbname="db_name", user="user", password="password"
+            host="host", driver="driver", dbname="db_name", user="user", password="password"
         )  # Default port test
 
         testCls.cur = MagicMock()
@@ -30,6 +31,7 @@ class TestMSSQLInteraction(unittest.TestCase):
     def test_fetch_sql_all(self):
         testCls = MSSQLInteraction(
             host="host",
+            driver="driver",
             dbname="db_name",
             user="user",
             password="password",
@@ -47,6 +49,7 @@ class TestMSSQLInteraction(unittest.TestCase):
     def test_fetch_sql_one(self):
         testCls = MSSQLInteraction(
             host="host",
+            driver="driver",
             dbname="db_name",
             user="user",
             password="password",
@@ -64,6 +67,7 @@ class TestMSSQLInteraction(unittest.TestCase):
     def test_get_table_columns(self):
         testCls = MSSQLInteraction(
             host="host",
+            driver="driver",
             dbname="db_name",
             user="user",
             password="password",
