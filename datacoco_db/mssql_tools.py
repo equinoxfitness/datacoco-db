@@ -9,12 +9,14 @@ import pyodbc
 from datacoco_db.helper.deprecate import deprecated
 
 
-def _result_iter(cursor, arraysize: int = None):
+def _result_iter(cursor, arraysize: int = None, dict_cursor: bool = False):
     "An iterator that uses fetchmany to keep memory usage down"
     count = 0
     while True:
-        # Get the columns from cursor.description since pyodbc fetchmany() only returns tuple.
-        columns = [column[0] for column in cursor.description]
+
+        if dict_cursor:
+            # Get the columns from cursor.description since pyodbc fetchmany() only returns tuple.
+            columns = [column[0] for column in cursor.description]
         blocksize = 1
         if arraysize is not None:
             blocksize = arraysize
@@ -23,7 +25,10 @@ def _result_iter(cursor, arraysize: int = None):
         if not results:
             break
         for result in results:
-            yield dict(zip(columns, result))
+            if dict_cursor:
+                yield dict(zip(columns, result))
+            else:
+                yield result
 
 
 NON_CSV_CHARS = re.compile(r"[\t\n]")
@@ -67,13 +72,20 @@ class MSSQLInteraction:
         self.con = None
         self.cur = None
 
-    def conn(self, dict_cursor=False):
+        # Default false, pyodbc will return in tuple format.
+        self.dict_cursor = False
+
+    def conn(self, dict_cursor: bool = False):
         """Open a connection, should be done right before time of insert
         """
         conf = f"DRIVER={self.driver};SERVER={self.host};DATABASE={self.dbname};UID={self.user};PWD={self.password};"
 
         if "\\" not in self.host:
             conf += f"PORT={self.port}"
+
+        # Tell pyodbc to return results in dict format
+        if dict_cursor:
+            self.dict_cursor = True
 
         self.con = pyodbc.connect(conf)
 
@@ -95,7 +107,7 @@ class MSSQLInteraction:
     def fetch_sql(self, sql, blocksize=1000, params=None):
         try:
             res = self._execute_with_or_without_params(sql, params)
-            results = _result_iter(res, arraysize=blocksize)
+            results = _result_iter(res, arraysize=blocksize, dict_cursor=self.dict_cursor)
         except Exception as e:
             raise
         return results

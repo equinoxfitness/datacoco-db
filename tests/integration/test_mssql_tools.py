@@ -47,21 +47,14 @@ class TestMSSQLInteraction(unittest.TestCase):
         result = self.testClass.get_table_columns("dbo.cdc_activity")
         self.assertEqual(True, len(result) > 0)
 
-    def test_export_to_csv(self):
-        # export sql to csv
-        new_file, filename = tempfile.mkstemp()
-        result = self.testClass.export_sql_to_csv(
-            "select * from #TEST", filename
-        )
-        self.assertEqual(True, result)
-
     def test_fetch_one(self):
         results = self.testClass.fetch_sql(
             sql="select * from #TEST where name = ?", params=("Mike",)
         )
         if results is not None:
             for row in results:
-                self.assertEqual("Mike", row["name"])
+                name, age = result
+                self.assertEqual("Mike", name)
 
     def test_fetch_sql_one(self):
         result = self.testClass.fetch_sql_one(sql="select * from #TEST;")
