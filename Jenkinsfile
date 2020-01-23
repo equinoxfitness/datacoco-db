@@ -23,7 +23,10 @@ pipeline{
                 slackSend (color: 'good', message: "datacoco_db_pypi_pipeline_${GIT_BRANCH} - Starting build #${BUILD_NUMBER}. (<${env.BUILD_URL}|Open>)")
 
                 echo "coverage"
-           
+
+                // Install pyodbc library dependencies
+                sh 'apt-get update && apt-get -y install g++ unixodbc-dev'
+
                 sh "pip install -r requirements-dev.txt"
                 sh "black --check datacoco_db tests"
                 sh "pip install coverage codacy-coverage"
@@ -45,9 +48,9 @@ pipeline{
                                    sourceEncoding: 'ASCII',
                                    zoomCoverageChart: false])
                 }
-            }       
+            }
         }
-        stage('Deploy to Pypi') {   
+        stage('Deploy to Pypi') {
             steps {
 
                 withCredentials([[
