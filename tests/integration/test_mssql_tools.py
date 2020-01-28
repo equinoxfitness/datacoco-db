@@ -9,11 +9,11 @@ class TestMSSQLInteraction(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.testClass = MSSQLInteraction(
-            host='host',
-            driver='driver',
-            dbname='db_name',
-            user='username',
-            password='password',
+            host="host",
+            driver="driver",
+            dbname="db_name",
+            user="username",
+            password="password",
         )
 
         print("--------------setup_test_table")

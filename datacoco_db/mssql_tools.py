@@ -11,7 +11,6 @@ from datacoco_db.helper.deprecate import deprecated
 
 
 class MSSQLInteractionBase:
-
     def __csv_cleanup(self, raw_s):
         encoded = str(raw_s).encode("utf-8")
         return NON_CSV_CHARS.sub(" ", encoded.decode())
@@ -30,9 +29,11 @@ class MSSQLInteractionBase:
                 break
             print("%s rows processed" % count)
             for result in results:
-                    yield result
+                yield result
 
-    def __result_iter_pyodbc(self, cursor, arraysize: int = 1000, dict_cursor: bool = False):
+    def __result_iter_pyodbc(
+        self, cursor, arraysize: int = 1000, dict_cursor: bool = False
+    ):
         "An iterator that uses fetchmany to keep memory usage down"
         count = 0
         while True:
@@ -109,26 +110,16 @@ class MSSQLInteractionBase:
     def getTableColumns(self, table_name):
         self.get_table_columns(table_name)
 
+
 class MSSQLInteraction(MSSQLInteractionBase):
     """
     Simple class for interacting with MSSQL
     """
 
     def __init__(
-        self,
-        dbname=None,
-        host=None,
-        user=None,
-        password=None,
-        port=1433,
+        self, dbname=None, host=None, user=None, password=None, port=1433,
     ):
-        if (
-            not dbname
-            or not host
-            or not user
-            or not port
-            or password is None
-        ):
+        if not dbname or not host or not user or not port or password is None:
             raise RuntimeError("%s request all __init__ arguments" % __name__)
 
         self.host = host
@@ -179,7 +170,9 @@ class MSSQLInteraction(MSSQLInteractionBase):
         """
         try:
             self.__execute_with_or_without_params(sql, params)
-            results = self._MSSQLInteractionBase__result_iter_pytds(cursor=self.cur, arraysize=blocksize)
+            results = self._MSSQLInteractionBase__result_iter_pytds(
+                cursor=self.cur, arraysize=blocksize
+            )
         except Exception as e:
             raise
         return results
@@ -202,10 +195,13 @@ class MSSQLInteraction(MSSQLInteractionBase):
         """
         if params is not None:
             if not isinstance(params, tuple):
-                raise ValueError("Passed in parameters must be in a tuple: %s", params)
+                raise ValueError(
+                    "Passed in parameters must be in a tuple: %s", params
+                )
             self.cur.execute(sql, params)
         else:
             self.cur.execute(sql)
+
 
 class MSSQLInteractionPyodbc(MSSQLInteractionBase):
     """
@@ -271,7 +267,9 @@ class MSSQLInteractionPyodbc(MSSQLInteractionBase):
         """
         try:
             res = self.__execute_with_or_without_params(sql, params)
-            results = self._MSSQLInteractionBase__result_iter_pyodbc(cursor=res, arraysize=blocksize, dict_cursor=self.dict_cursor)
+            results = self._MSSQLInteractionBase__result_iter_pyodbc(
+                cursor=res, arraysize=blocksize, dict_cursor=self.dict_cursor
+            )
             if self.dict_cursor:
                 return [item for item in results]
             return results
@@ -297,7 +295,9 @@ class MSSQLInteractionPyodbc(MSSQLInteractionBase):
         """
         if params is not None:
             if not isinstance(params, tuple):
-                raise ValueError("Passed in parameters must be in a tuple: %s", params)
+                raise ValueError(
+                    "Passed in parameters must be in a tuple: %s", params
+                )
             return self.cur.execute(sql, params)
         else:
             return self.cur.execute(sql)
