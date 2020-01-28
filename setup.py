@@ -21,6 +21,7 @@ setup(
     install_requires=[
         "psycopg2-binary>=2.8",
         "pyodbc==4.0.28",
+        "python-tds==1.9.1",
         "simplejson==3.14.0",
         "sqlalchemy==1.3.0b1",
         "PyMySQL==0.9.3",
