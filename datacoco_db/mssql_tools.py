@@ -25,8 +25,10 @@ class MSSQLInteractionBase:
                 blocksize = arraysize
             results = cursor.fetchmany(blocksize)
             count += len(results)
-            if not results:
+            if not results or count < 1:
+                print("no rows to process")
                 break
+            print("%s rows processed" % count)
             for result in results:
                     yield result
 
@@ -42,7 +44,7 @@ class MSSQLInteractionBase:
                 blocksize = arraysize
             results = cursor.fetchmany(blocksize)
             count += len(results)
-            if not results:
+            if not results or count < 1:
                 break
             for result in results:
                 if dict_cursor:
@@ -159,6 +161,7 @@ class MSSQLInteraction(MSSQLInteractionBase):
                 as_dict=dict_cursor,
                 login_timeout=360,
             )
+
     def fetch_sql_all(self, sql, params=None):
         try:
             self.__execute_with_or_without_params(sql, params)
@@ -254,10 +257,6 @@ class MSSQLInteractionPyodbc(MSSQLInteractionBase):
         if dict_cursor:
             self.dict_cursor = True
         self.con = pyodbc.connect(conf)
-
-    @deprecated("Use batch_open() instead")
-    def fetch_sql_all(self, sql, params=None):
-        return self.fetch_sql(sql=sql, params=params)
 
     def fetch_sql(self, sql, blocksize=1000, params=None):
         """
