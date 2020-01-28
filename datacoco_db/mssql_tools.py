@@ -258,6 +258,10 @@ class MSSQLInteractionPyodbc(MSSQLInteractionBase):
             self.dict_cursor = True
         self.con = pyodbc.connect(conf)
 
+    @deprecated("Use batch_open() instead")
+    def fetch_sql_all(self, sql, params=None):
+        return self.fetch_sql(sql=sql, params=params)
+
     def fetch_sql(self, sql, blocksize=1000, params=None):
         """
         :param sql: The query you want run, which may require parameters
