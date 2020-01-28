@@ -258,7 +258,7 @@ class MSSQLInteractionPyodbc(MSSQLInteractionBase):
             self.dict_cursor = True
         self.con = pyodbc.connect(conf)
 
-    @deprecated("Use batch_open() instead")
+    @deprecated("Use fetch_sql() instead")
     def fetch_sql_all(self, sql, params=None):
         return self.fetch_sql(sql=sql, params=params)
 
