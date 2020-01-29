@@ -11,7 +11,7 @@ Issues
 First off, issues may arise when not ran inside a virtual environment.
 Therefore, make sure to follow the installation process before
 proceeding. Issues can be created
-`here <https://github.com/equinoxfitness/maximilian/issues/new>`__ and
+`here <https://github.com/equinoxfitness/datacoco-db/issues/new>`__ and
 please put the appropriate label.
 
 Local development setup

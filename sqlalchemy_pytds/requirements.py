@@ -2,8 +2,8 @@ from sqlalchemy.testing.requirements import SuiteRequirements
 
 from sqlalchemy.testing import exclusions
 
-class Requirements(SuiteRequirements):
 
+class Requirements(SuiteRequirements):
     @property
     def temp_table_reflection(self):
         return exclusions.closed()
