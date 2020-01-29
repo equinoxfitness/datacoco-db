@@ -49,7 +49,9 @@ class MSSQLInteractionBase:
             results = cursor.fetchmany(blocksize)
             count += len(results)
             if not results or count < 1:
+                print("no rows to process")
                 break
+            print("%s rows processed" % count)
             for result in results:
                 if dict_cursor:
                     yield dict(zip(columns, result))
