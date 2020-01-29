@@ -19,7 +19,7 @@ datacoco-db
 
 .. image:: https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg
     :target: https://github.com/equinoxfitness/datacoco-db/blob/master/CODE_OF_CONDUCT.rst
-    :Code of Conduct
+    :alt: Code of Conduct
 
 Equinox Common Code Utility for Python 3 for DB interactions! There are
 currently interaction classes for the following DBs and Apps:
