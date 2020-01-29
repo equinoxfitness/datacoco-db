@@ -9,6 +9,8 @@ import pyodbc
 
 from datacoco_db.helper.deprecate import deprecated
 
+NON_CSV_CHARS = re.compile(r"[\t\n]")
+
 
 class MSSQLInteractionBase:
     def __csv_cleanup(self, raw_s):
@@ -38,7 +40,8 @@ class MSSQLInteractionBase:
         count = 0
         while True:
             if dict_cursor:
-                # Get the columns from cursor.description since pyodbc fetchmany() only returns tuple.
+                # Get the columns from cursor.description
+                # since pyodbc fetchmany() only returns tuple.
                 columns = [column[0] for column in cursor.description]
             blocksize = 1
             if arraysize is not None:
@@ -46,7 +49,9 @@ class MSSQLInteractionBase:
             results = cursor.fetchmany(blocksize)
             count += len(results)
             if not results or count < 1:
+                print("no rows to process")
                 break
+            print("%s rows processed" % count)
             for result in results:
                 if dict_cursor:
                     yield dict(zip(columns, result))
@@ -86,6 +91,7 @@ class MSSQLInteractionBase:
             f.close()
             return True
         except Exception as e:
+            print(e)
             return False
 
     def exec_sql(self, sql, auto_commit=True):
@@ -158,6 +164,7 @@ class MSSQLInteraction(MSSQLInteractionBase):
             self.__execute_with_or_without_params(sql, params)
             results = self.cur.fetchall()
         except Exception as e:
+            print(e)
             raise
         return results
 
@@ -174,6 +181,7 @@ class MSSQLInteraction(MSSQLInteractionBase):
                 cursor=self.cur, arraysize=blocksize
             )
         except Exception as e:
+            print(e)
             raise
         return results
 
@@ -244,7 +252,10 @@ class MSSQLInteractionPyodbc(MSSQLInteractionBase):
     def conn(self, dict_cursor: bool = False):
         """Open a connection, should be done right before time of insert
         """
-        conf = f"DRIVER={self.driver};SERVER={self.host};DATABASE={self.dbname};UID={self.user};PWD={self.password};"
+        conf = (
+            f"DRIVER={self.driver};SERVER={self.host};"
+            f"DATABASE={self.dbname};UID={self.user};PWD={self.password};"
+        )
 
         if "\\" not in self.host:
             conf += f"PORT={self.port}"
@@ -274,6 +285,7 @@ class MSSQLInteractionPyodbc(MSSQLInteractionBase):
                 return [item for item in results]
             return results
         except Exception as e:
+            print(e)
             raise
 
     def get_table_columns(self, table_name):
