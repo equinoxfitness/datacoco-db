@@ -7,7 +7,7 @@ from datacoco_db.rdb_tools import DBInteraction
 class TestDBInteraction(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.testClass = DBInteraction(
+        cls.testClass = DBInteraction(  # nosec
             dbtype="mssql",
             host="host",
             dbname="db_name",
@@ -74,7 +74,7 @@ class TestDBInteraction(unittest.TestCase):
 
     def test_url_from_conf(self):
         print("--------------test_url_from_conf")
-        from_conf = self.testClass.url_from_conf(
+        from_conf = self.testClass.url_from_conf(  # nosec
             dbtype="postgres",
             user="test_user",
             password="test_password",
@@ -88,7 +88,7 @@ class TestDBInteraction(unittest.TestCase):
         )
         self.assertEqual(True, from_conf == expected_res)
 
-        from_conf = self.testClass.url_from_conf(
+        from_conf = self.testClass.url_from_conf(  # nosec
             dbtype="mssql",
             user="test_user",
             password="test_password",

@@ -6,21 +6,16 @@ from datacoco_db.mssql_tools import MSSQLInteraction
 
 class TestMSSQLInteraction(unittest.TestCase):
     def test_exec_sql(self):
-        testCls = MSSQLInteraction(
+        testCls = MSSQLInteraction(  # nosec
             host="host",
-            driver="driver",
             dbname="db_name",
             user="user",
             password="password",
             port="3306",
         )
 
-        testCls = MSSQLInteraction(
-            host="host",
-            driver="driver",
-            dbname="db_name",
-            user="user",
-            password="password",
+        testCls = MSSQLInteraction(  # nosec
+            host="host", dbname="db_name", user="user", password="password",
         )  # Default port test
 
         testCls.cur = MagicMock()
@@ -33,9 +28,8 @@ class TestMSSQLInteraction(unittest.TestCase):
         )
 
     def test_fetch_sql_all(self):
-        testCls = MSSQLInteraction(
+        testCls = MSSQLInteraction(  # nosec
             host="host",
-            driver="driver",
             dbname="db_name",
             user="user",
             password="password",
@@ -51,9 +45,8 @@ class TestMSSQLInteraction(unittest.TestCase):
         )
 
     def test_fetch_sql_one(self):
-        testCls = MSSQLInteraction(
+        testCls = MSSQLInteraction(  # nosec
             host="host",
-            driver="driver",
             dbname="db_name",
             user="user",
             password="password",
@@ -69,9 +62,8 @@ class TestMSSQLInteraction(unittest.TestCase):
         )
 
     def test_get_table_columns(self):
-        testCls = MSSQLInteraction(
+        testCls = MSSQLInteraction(  # nosec
             host="host",
-            driver="driver",
             dbname="db_name",
             user="user",
             password="password",

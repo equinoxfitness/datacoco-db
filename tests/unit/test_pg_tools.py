@@ -6,7 +6,7 @@ from datacoco_db.pg_tools import PGInteraction
 
 class TestPGInteraction(unittest.TestCase):
     def test_bulk_dictionary_insert(self):
-        testClass = PGInteraction(
+        testClass = PGInteraction(  # nosec
             dbname="db_name",
             host="host",
             user="user",
@@ -18,7 +18,7 @@ class TestPGInteraction(unittest.TestCase):
         testClass.bulk_dictionary_insert("table_name", {"key": "value"})
 
     def test_validate_schema(self):
-        testClass = PGInteraction(
+        testClass = PGInteraction(  # nosec
             dbname="db_name",
             host="host",
             user="user",
