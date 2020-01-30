@@ -53,34 +53,34 @@ class SSCursor(object):
 
     def movefirst(self):
         value = 0
-        if value >= 0 and value < self._nrows:
+        if 0 <= value < self._nrows:
             self._row = value
             return True
         return False
 
     def moveprev(self):
         value = self._row - 1
-        if value >= 0 and value < self._nrows:
+        if 0 <= value < self._nrows:
             self._row = value
             return True
         return False
 
     def movenext(self):
         value = self._row + 1
-        if value >= 0 and value < self._nrows:
+        if 0 <= value < self._nrows:
             self._row = value
             return True
         return False
 
     def movelast(self):
         value = self._nrows - 1
-        if value >= 0 and value < self._nrows:
+        if 0 <= value < self._nrows:
             self._row = value
             return True
         return False
 
     def goto(self, value):
-        if value >= 0 and value < self._nrows:
+        if 0 <= value < self._nrows:
             self._row = value
             return True
         return False
@@ -119,7 +119,7 @@ class MSExecutionContext_pytds(MSExecutionContext):
         if (
             self._select_lastrowid
             and self.dialect.use_scope_identity
-            and len(self.parameters[0])
+            and self.parameters[0]
         ):
             self._embedded_scope_identity = True
 
@@ -132,6 +132,7 @@ class MSExecutionContext_pytds(MSExecutionContext):
                     row = self.cursor.fetchall()[0]
                     break
                 except self.dialect.dbapi.Error as e:
+                    print(e)
                     self.cursor.nextset()
 
             self._lastrowid = int(row[0])

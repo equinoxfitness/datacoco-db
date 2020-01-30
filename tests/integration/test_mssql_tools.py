@@ -1,6 +1,4 @@
 import unittest
-import tempfile
-import os
 
 from datacoco_db.mssql_tools import MSSQLInteraction
 
@@ -8,16 +6,15 @@ from datacoco_db.mssql_tools import MSSQLInteraction
 class TestMSSQLInteraction(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.testClass = MSSQLInteraction(
+        cls.testClass = MSSQLInteraction(  # nosec
             host="host",
-            driver="driver",
             dbname="db_name",
             user="username",
             password="password",
         )
 
         print("--------------setup_test_table")
-        conn = cls.testClass.conn()
+        cls.testClass.conn()
 
         cls.testClass.batch_open()
 
@@ -53,7 +50,7 @@ class TestMSSQLInteraction(unittest.TestCase):
         )
         if results is not None:
             for row in results:
-                name, age = result
+                name, age = row
                 self.assertEqual("Mike", name)
 
     def test_fetch_sql_one(self):

@@ -7,7 +7,7 @@ class TestMYSQLInteraction(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         try:
-            cls.testClass = MYSQLInteraction(
+            cls.testClass = MYSQLInteraction(  # nosec
                 host="host",
                 dbname="db_name",
                 user="user",

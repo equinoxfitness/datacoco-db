@@ -9,7 +9,7 @@ class TestPGInteraction(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         try:
-            cls.testClass = PGInteraction(
+            cls.testClass = PGInteraction(  # nosec
                 host="host",
                 dbname="db_name",
                 user="user",
@@ -67,7 +67,7 @@ class TestPGInteraction(unittest.TestCase):
         os.close(new_file)
 
         # export to s3 (modify connection)
-        self.testClass.export_sql_to_s3(
+        self.testClass.export_sql_to_s3(  # nosec
             sql="select * from temp_sql_count",
             s3path="s3://temp_bucket/datacocodb-test.txt",
             aws_access_key="aws_access_key",
