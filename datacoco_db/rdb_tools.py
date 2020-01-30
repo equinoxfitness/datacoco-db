@@ -111,7 +111,7 @@ class DBInteraction:
                 from pg_catalog.svv_external_columns
                 where schemaname = lower('%s') and tablename = lower('%s')
                 order by columnnum asc;
-            """ % (
+            """ % (  # nosec
                 schema_name,
                 table_name,
             )
@@ -126,7 +126,7 @@ class DBInteraction:
                 from information_schema.columns
                 where table_schema=lower('%s') and table_name=lower('%s')
                 order by ordinal_position
-            """ % (
+            """ % (  # nosec
                 schema_name,
                 table_name,
             )

@@ -168,7 +168,13 @@ disable=print-statement,
         protected-access,
         unnecessary-comprehension,
         unused-variable,
-        too-many-boolean-expressions
+        too-many-boolean-expressions,
+        ungrouped-imports,
+        unused-argument,
+        too-many-public-methods,
+        abstract-method,
+        superfluous-parens
+
 
 # Enable the message, report, category or checker with the given id(s). You can
 # either give multiple identifier separated by comma (,) or put this option

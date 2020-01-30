@@ -14,7 +14,7 @@ def execute(self, operation, params=None):
     # print 'execute:', operation, params
     if operation[:3] == "sp_":
         proc, operation = operation.split(" ", 1)
-        assert proc == "sp_columns"
+        assert proc == "sp_columns"  # nosec
         operation = operation.split("'")
         params = {
             "@table_name": operation[1],
@@ -31,7 +31,7 @@ def process_tabname(self):
     r = self._reader
     total_length = r.get_smallint()
     if not tds.tds_base.IS_TDS71_PLUS(self):
-        name_length = r.get_smallint()
+        name_length = r.get_smallint()  # noqa: F841
     tds.skipall(r, total_length)
 
 
@@ -78,7 +78,7 @@ class PyTDSConnector(Connector):
         opts.update(url.query)
 
         keys = opts
-        query = url.query
+        query = url.query  # noqa: F841
 
         connect_args = {}
         for param in ("autocommit", "use_mars", "as_dict"):
@@ -126,10 +126,10 @@ class PyTDSConnector(Connector):
         return vers
 
     def _get_server_version_info(self, connection):
-        l = connection.connection.product_version
+        pv = connection.connection.product_version
         version = []
         for i in range(4):
-            version.append(l & 0xFF)
-            l >>= 8
+            version.append(pv & 0xFF)
+            pv >>= 8
         version.reverse()
         return tuple(version)

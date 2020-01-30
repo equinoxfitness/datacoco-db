@@ -218,7 +218,7 @@ class PGInteraction:
         placeholders = ", ".join(["%s"] * len(col_dict))
         columns = ", ".join(col_dict.keys())
 
-        sql = "INSERT into %s ( %s ) VALUES ( %s )" % (
+        sql = "INSERT into %s ( %s ) VALUES ( %s )" % (  # nosec
             table_name,
             columns,
             placeholders,
@@ -240,7 +240,8 @@ class PGInteraction:
             where etl_updated=0
             and nk in (select nk from {0} where etl_updated = 1);
 
-            update {0} set etl_updated = 0 where etl_updated = 1;""".format(
+            update {0} set etl_updated = 0
+            where etl_updated = 1;""".format(  # nosec
             table_name
         )
 
@@ -270,7 +271,7 @@ class PGInteraction:
               from pg_class c
               join pg_namespace n on n.oid = c.relnamespace
               where trim(n.nspname) = '%s' and trim(c.relname) = '%s'
-              """ % (
+              """ % (  # nosec
             schema_name.lower(),
             table.lower(),
         )
