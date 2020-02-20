@@ -1,4 +1,5 @@
 import unittest
+from unittest.mock import patch
 
 from datetime import date
 from datacoco_db.rdb_tools import DBInteraction
@@ -13,23 +14,37 @@ class TestDBInteraction(unittest.TestCase):
             dbname="db_name",
             user="user",
             password="password",
-            port="port",
+            port=5439,
         )
 
-    def test_fetch_sql_all(self):
+    @patch("datacoco_db.rdb_tools.DBInteraction.exec_sql")
+    def test_exec_sql(self, mock_exec_sql):
+        print("--------------test_exec_sql")
+        self.testClass.exec_sql(
+            """
+                CREATE TABLE #TEST (
+                    [name] varchar(256)
+                    ,[age] int );
+
+                INSERT INTO #TEST
+                    values ('Mike', 12)
+                    ,('someone else', 904);
+            """
+        )
+        self.assertTrue(mock_exec_sql.called)
+
+    @patch("datacoco_db.rdb_tools.DBInteraction.fetch_sql_all")
+    def test_fetch_sql_all(self, mock_fetch_sql_all):
         print("--------------test_fetch_sql_all")
-        result = self.testClass.fetch_sql_one(
+        mock_fetch_sql_all.return_value = date.today()
+        result = self.testClass.fetch_sql_all(
             "select CONVERT(date, current_timestamp)"
         )
-        self.assertEqual(result[0], date.today())
+        self.assertEqual(result, date.today())
 
-    def test_fetch_sql_one_empty_string(self):
-        print("--------------test__fetch_sql_one")
-        result = self.testClass.fetch_sql_one("SELECT ''")
-        self.assertEqual(result[0], "")
-
-    def test_mssql_fetch_sql_one(self):
-        print("--------------test_cosmo_fetch_sql_one")
+    @patch("datacoco_db.rdb_tools.DBInteraction.fetch_sql_one")
+    def test_fetch_sql_one(self, mock_fetch_sql_one):
+        print("--------------test_fetch_sql_one")
         result = self.testClass.fetch_sql_one(
             """
              CREATE TABLE #TEST (
@@ -46,34 +61,24 @@ class TestDBInteraction(unittest.TestCase):
         for r in result:
             self.assertEqual(2, r)
 
-    def test_exec_sql(self):
-        print("--------------test_exec_sql")
-        self.testClass.exec_sql(
-            """
-                        CREATE TABLE #TEST (
-                            [name] varchar(256)
-                            ,[age] int );
-                """
+    @patch("datacoco_db.rdb_tools.DBInteraction.fetch_sql")
+    def test_fetch_sql(self, mock_fetch_sql):
+        print("--------------test_fetch_sql")
+        expected_response = {"Mike", 12}
+        mock_fetch_sql.return_value = {"Mike", 12}
+        results = self.testClass.fetch_sql(
+            sql="select * from #TEST where name = ?", params=("Mike",)
         )
+        if results is not None:
+            for row in results:
+                self.assertEqual(results, expected_response)
 
-        self.testClass.exec_sql(
-            """
-                        INSERT INTO #TEST
-                            values ('Mike', 12)
-                            ,('someone else', 904);
-                """
-        )
-
-        result = self.testClass.fetch_sql_one(
-            """
-                        SELECT count(1) from #TEST;
-                """
-        )
-        for r in result:
-            print(r)
-
-    def test_url_from_conf(self):
+    @patch("datacoco_db.rdb_tools.DBInteraction.url_from_conf")
+    def test_url_from_conf(self, mock_url_from_conf):
         print("--------------test_url_from_conf")
+        mock_url_from_conf.return_value = (
+            "postgresql+psycopg2://test_user:"
+        ) + ("test_password@test_host:test_port/test_db_name")
         from_conf = self.testClass.url_from_conf(  # nosec
             dbtype="postgres",
             user="test_user",
@@ -82,25 +87,24 @@ class TestDBInteraction(unittest.TestCase):
             dbname="test_db_name",
             host="test_host",
         )
-        print(from_conf)
         expected_res = ("postgresql+psycopg2://test_user:") + (
             "test_password@test_host:test_port/test_db_name"
         )
-        self.assertEqual(True, from_conf == expected_res)
+        self.assertEqual(from_conf, expected_res)
 
-        from_conf = self.testClass.url_from_conf(  # nosec
-            dbtype="mssql",
-            user="test_user",
-            password="test_password",
-            host="test_server",
-            dbname="test_db_name",
-            port="1433",
-        )
-        print(from_conf)
-        expected_res = ("mssql+pytds://test_user:") + (
-            "test_password@test_server:1433/test_db_name"
-        )
-        self.assertEqual(True, from_conf == expected_res)
+    @patch("datacoco_db.rdb_tools.DBInteraction.table_exists")
+    def test_table_exists(self, mock_table_exists):
+        print("--------------test_table_exists")
+        mock_table_exists.return_value = True
+        result = self.testClass.table_exists("TEST")
+        self.assertTrue(result)
+
+    @patch("datacoco_db.rdb_tools.DBInteraction.get_schema")
+    def test_get_schema(self, mock_get_schema):
+        print("--------------test_get_schema")
+        mock_get_schema.return_value = None
+        table_query = self.testClass.get_schema("schema_name", "table_name")
+        self.assertIsNone(table_query)
 
 
 if __name__ == "__main__":
