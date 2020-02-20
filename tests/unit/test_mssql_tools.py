@@ -76,7 +76,7 @@ class TestMSSQLInteraction(unittest.TestCase):
 
 class TestMSSQLInteractionPyodbc(unittest.TestCase):
     def test_exec_sql(self):
-        testCls = MSSQLInteractionPyodbc(
+        testCls = MSSQLInteractionPyodbc(  # nosec
             host="host",
             driver="driver",
             dbname="db_name",
@@ -93,7 +93,7 @@ class TestMSSQLInteractionPyodbc(unittest.TestCase):
         )
 
     def test_fetch_sql_one(self):
-        testCls = MSSQLInteractionPyodbc(
+        testCls = MSSQLInteractionPyodbc(  # nosec
             host="host",
             driver="driver",
             dbname="db_name",
@@ -110,7 +110,7 @@ class TestMSSQLInteractionPyodbc(unittest.TestCase):
         )
 
     def test_get_table_columns(self):
-        testCls = MSSQLInteractionPyodbc(
+        testCls = MSSQLInteractionPyodbc(  # nosec
             host="host",
             driver="driver",
             dbname="db_name",

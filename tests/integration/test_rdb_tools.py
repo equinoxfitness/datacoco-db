@@ -67,7 +67,7 @@ class TestDBInteraction(unittest.TestCase):
         expected_response = {"Mike", 12}
         mock_fetch_sql.return_value = {"Mike", 12}
         results = self.testClass.fetch_sql(
-            sql="select * from #TEST where name = ?", params=("Mike",)
+            sql="select * from #TEST where name = 'Mike'"
         )
         if results is not None:
             for row in results:
@@ -96,7 +96,7 @@ class TestDBInteraction(unittest.TestCase):
     def test_table_exists(self, mock_table_exists):
         print("--------------test_table_exists")
         mock_table_exists.return_value = True
-        result = self.testClass.table_exists("TEST")
+        result = self.testClass.table_exists("schema_name", "table_name")
         self.assertTrue(result)
 
     @patch("datacoco_db.rdb_tools.DBInteraction.get_schema")
