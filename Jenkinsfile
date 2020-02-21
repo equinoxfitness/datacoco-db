@@ -28,9 +28,8 @@ pipeline{
                 sh 'apt-get update && apt-get -y install g++ unixodbc-dev'
 
                 sh "pip install -r requirements-dev.txt"
-                sh "black --check datacoco_db tests"
                 sh "pip install coverage codacy-coverage"
-                sh "coverage run -m unittest tests.unit"
+                sh "coverage run -m unittest discover tests"
                 sh "coverage xml -i"
                 sh "python-codacy-coverage -r coverage.xml"
             }
