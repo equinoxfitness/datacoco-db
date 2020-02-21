@@ -192,7 +192,7 @@ class DBInteraction:
                 user,
                 password,
                 host,
-                port,
+                port if port is not None else "5439",
                 dbname,
             )
         elif dbtype == "mssql":
@@ -200,7 +200,7 @@ class DBInteraction:
                 user,
                 password,
                 host,
-                port,
+                port if port is not None else "1433",
                 dbname,
             )
         elif dbtype == "mysql":
@@ -208,7 +208,7 @@ class DBInteraction:
                 user,
                 password,
                 host,
-                port,
+                port if port is not None else "3306",
                 dbname,
             )
         else:
