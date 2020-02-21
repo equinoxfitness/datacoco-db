@@ -36,7 +36,7 @@ class DBInteraction:
         password=None,
         port=None,
     ):
-        if not dbname or not host or not user or not port or password is None:
+        if not dbname or not host or not user or password is None:
             raise RuntimeError("%s request all __init__ arguments" % __name__)
 
         self.url = DBInteraction.url_from_conf(
@@ -192,7 +192,7 @@ class DBInteraction:
                 user,
                 password,
                 host,
-                port,
+                port if port is not None else "5439",
                 dbname,
             )
         elif dbtype == "mssql":
@@ -200,7 +200,7 @@ class DBInteraction:
                 user,
                 password,
                 host,
-                port,
+                port if port is not None else "1433",
                 dbname,
             )
         elif dbtype == "mysql":
@@ -208,7 +208,7 @@ class DBInteraction:
                 user,
                 password,
                 host,
-                port,
+                port if port is not None else "3306",
                 dbname,
             )
         else:
