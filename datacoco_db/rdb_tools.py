@@ -36,7 +36,7 @@ class DBInteraction:
         password=None,
         port=None,
     ):
-        if not dbname or not host or not user or not port or password is None:
+        if not dbname or not host or not user or password is None:
             raise RuntimeError("%s request all __init__ arguments" % __name__)
 
         self.url = DBInteraction.url_from_conf(
