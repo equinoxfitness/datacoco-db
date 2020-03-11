@@ -10,11 +10,11 @@ datacoco-db
     :alt: Documentation Status
 
 .. image:: https://api.codacy.com/project/badge/Grade/4d85afc6c49f40eab14f9aa60336ac64
-    :target: https://www.codacy.com/manual/equinoxfitness/datacoco-db?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=equinoxfitness/datacoco-db&amp;utm_campaign=Badge_Grade
+    :target: https://www.codacy.com/gh/equinoxfitness/datacoco-db?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=equinoxfitness/datacoco-db&amp;utm_campaign=Badge_Grade
     :alt: Code Quality Grade
 
 .. image:: https://api.codacy.com/project/badge/Coverage/4d85afc6c49f40eab14f9aa60336ac64
-    :target: https://www.codacy.com/manual/equinoxfitness/datacoco-db?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=equinoxfitness/datacoco-db&amp;utm_campaign=Badge_Coverage
+    :target: https://www.codacy.com/gh/equinoxfitness/datacoco-db?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=equinoxfitness/datacoco-db&amp;utm_campaign=Badge_Coverage
     :alt: Coverage
 
 .. image:: https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg
