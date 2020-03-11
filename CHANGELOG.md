@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.1.7] - 2020-03-11
+### Changed
+    - Fix exception handling when calling exec_sql() using stored proc queries.
+
 ## [0.1.6] - 2020-02-21
 ### Added
     - Add .readthedocs.yaml
@@ -61,6 +65,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - mssql sql_fetch_one fix on multiple statements
     - add test to support multiline test on mssql fetch_one
 
+[0.1.7]: https://github.com/equinoxfitness/datacoco-db/compare/0.1.6...0.1.7
 [0.1.6]: https://github.com/equinoxfitness/datacoco-db/compare/0.1.5...0.1.6
 [0.1.5]: https://github.com/equinoxfitness/datacoco-db/compare/0.1.4...0.1.5
 [0.1.4]: https://github.com/equinoxfitness/datacoco-db/compare/0.1.3...0.1.4

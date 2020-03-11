@@ -95,9 +95,15 @@ class MSSQLInteractionBase:
             return False
 
     def exec_sql(self, sql, auto_commit=True):
-        self.cur.execute(sql)
-        if auto_commit:
-            self.con.commit()
+        try:
+            self.cur.execute(sql)
+            # Added cursor nextset() so we can catch if there's error in stored proc sql statements
+            self.cur.nextset()
+            if auto_commit:
+                self.con.commit()
+        except Exception as e:
+            print("exec_sql error: ", str(e))
+            raise
 
     def fetch_sql_one(self, sql):
         statements = sql.strip().split(";")
