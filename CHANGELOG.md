@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.1.8] - 2020-08-25
+### Changed
+    - Add mongointeraction
+
 ## [0.1.7] - 2020-03-11
 ### Changed
     - Fix exception handling when calling exec_sql() using stored proc queries.

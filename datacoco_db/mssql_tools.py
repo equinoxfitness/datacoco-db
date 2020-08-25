@@ -97,7 +97,6 @@ class MSSQLInteractionBase:
     def exec_sql(self, sql, auto_commit=True):
         try:
             self.cur.execute(sql)
-            # Added cursor nextset() so we can catch if there's error in stored proc sql statements
             self.cur.nextset()
             if auto_commit:
                 self.con.commit()
