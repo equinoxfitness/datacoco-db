@@ -150,7 +150,6 @@ class DBInteraction:
             if x.strip().index("--") == 0:
                 return x.replace(x[x.index("--") :], "")
         except Exception as err:
-            print(err)
             pass
         return x
 

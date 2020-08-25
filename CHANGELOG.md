@@ -6,9 +6,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
-## [0.1.8] - 2020-08-25
+## [0.1.9] - 2020-08-25
 ### Changed
     - Add mongointeraction
+
+## [0.1.8] - 2020-07-07
+### Changed
+    - Fixed substr not found error
 
 ## [0.1.7] - 2020-03-11
 ### Changed
@@ -69,6 +73,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - mssql sql_fetch_one fix on multiple statements
     - add test to support multiline test on mssql fetch_one
 
+[0.1.9]: https://github.com/equinoxfitness/datacoco-db/compare/0.1.8...0.1.9
+[0.1.8]: https://github.com/equinoxfitness/datacoco-db/compare/0.1.7...0.1.8
 [0.1.7]: https://github.com/equinoxfitness/datacoco-db/compare/0.1.6...0.1.7
 [0.1.6]: https://github.com/equinoxfitness/datacoco-db/compare/0.1.5...0.1.6
 [0.1.5]: https://github.com/equinoxfitness/datacoco-db/compare/0.1.4...0.1.5
